@@ -11,8 +11,12 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func Main(chan_net_req chan *net.ReqData) {
-	for page_num := 1; ; page_num++ {
+func extractSearchPages(chan_net_req chan *net.ReqData, chan_extracted_docs chan *goquery.Document) {
+	// TODO: price step
+
+	var page_num int
+
+	for page_num = 1; page_num <= define.SEARCH_MAX_PAGE; page_num++ {
 		url := fmt.Sprintf(define.SEARCH_URL, page_num, config.PRICE_MIN_BGN, config.PRICE_MAX_BGN)
 		fmt.Printf("url: %v\n", url)
 
@@ -28,5 +32,13 @@ func Main(chan_net_req chan *net.ReqData) {
 		if doc.Find("div.width980px.pageMessageAlert").Length() > 0 {
 			break
 		}
+
+		chan_extracted_docs <- doc
 	}
+
+	if page_num >= define.SEARCH_MAX_PAGE {
+		log.Printf("The very last search page was reached, it is possible that some cars were ommited")
+	}
+
+	close(chan_extracted_docs)
 }
