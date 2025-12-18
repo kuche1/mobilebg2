@@ -1,7 +1,4 @@
-// go mod init mobilebg2
-// go mod tidy
-
-package main
+package extract_car_links
 
 import (
 	"fmt"
@@ -14,16 +11,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func main() {
-	chan_net_req := net.RequesterInit()
-
-	chan_resp := net.Req(chan_net_req, "https://example.com")
-
-	resp_bytes := <-chan_resp
-	resp := string(resp_bytes)
-
-	fmt.Printf("resp: %v\n", resp)
-
+func Main(chan_net_req chan *net.ReqData) {
 	for page_num := 1; ; page_num++ {
 		url := fmt.Sprintf(define.SEARCH_URL, page_num, config.PRICE_MIN_BGN, config.PRICE_MAX_BGN)
 		fmt.Printf("url: %v\n", url)
