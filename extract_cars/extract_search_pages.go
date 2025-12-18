@@ -1,4 +1,4 @@
-package extract_car_links
+package extract_cars
 
 import (
 	"fmt"
@@ -11,8 +11,10 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func extractSearchPages(chan_net_req chan *net.ReqData, chan_extracted_docs chan *goquery.Document) {
+func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links chan *goquery.Document) {
 	// TODO: price step
+
+	defer close(chan_page_with_car_links)
 
 	var page_num int
 
@@ -33,12 +35,11 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_extracted_docs chan
 			break
 		}
 
-		chan_extracted_docs <- doc
+		chan_page_with_car_links <- doc
 	}
 
 	if page_num >= define.SEARCH_MAX_PAGE {
 		log.Printf("The very last search page was reached, it is possible that some cars were ommited")
 	}
 
-	close(chan_extracted_docs)
 }
