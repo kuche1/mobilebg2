@@ -32,7 +32,6 @@ func RequesterInit() (chan_for_new_requests chan *ReqData) {
 func requesterThr(chan_requests chan *ReqData) {
 	last_request_sent_at := time.Now().UnixMilli()
 
-	// TODO: also implement delay
 	for req_data := range chan_requests {
 
 		// sleep if needed
