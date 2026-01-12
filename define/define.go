@@ -11,3 +11,6 @@ const SEARCH_URL = "https://www.mobile.bg/obiavi/avtomobili-dzhipove/oblast-sofi
 const SEARCH_MAX_PAGE = 150
 
 const CAR_LINK_PREFIX = "https:"
+
+// if this is too big, you might miss some of the listings, however if that does happen, a message will be printed
+const PRICE_STEP = 800

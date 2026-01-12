@@ -12,15 +12,35 @@ import (
 )
 
 func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links chan *goquery.Document) {
-	// TODO: price step
-
 	defer close(chan_page_with_car_links)
 
+	price_max := config.PRICE_MAX_BGN
+
+	for {
+		if price_max < config.PRICE_MIN_BGN {
+			break
+		}
+
+		price_min := max(price_max-define.PRICE_STEP, config.PRICE_MIN_BGN)
+
+		extractSearchPagesWithinPriceRange(chan_net_req, chan_page_with_car_links, price_min, price_max)
+
+		price_max = price_min - 1
+	}
+}
+
+func extractSearchPagesWithinPriceRange(
+	chan_net_req chan *net.ReqData,
+	chan_page_with_car_links chan *goquery.Document,
+	price_min int,
+	price_max int,
+) {
 	var page_num int
 
 	for page_num = 1; page_num <= define.SEARCH_MAX_PAGE; page_num++ {
-		url := fmt.Sprintf(define.SEARCH_URL, page_num, config.PRICE_MIN_BGN, config.PRICE_MAX_BGN)
-		fmt.Printf("url: %v\n", url)
+
+		url := fmt.Sprintf(define.SEARCH_URL, page_num, price_min, price_max)
+		// fmt.Printf("url: %v\n", url)
 
 		raw_resp_bytes := <-net.Req(chan_net_req, url)
 		raw_resp_text := string(raw_resp_bytes)
@@ -41,5 +61,4 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 	if page_num >= define.SEARCH_MAX_PAGE {
 		log.Printf("The very last search page was reached, it is possible that some cars were omitted")
 	}
-
 }
