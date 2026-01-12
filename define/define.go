@@ -18,13 +18,14 @@ const CAR_LINK_PREFIX = "https:"
 // if this is too big, you might miss some of the listings, however if that does happen, a message will be printed
 const PRICE_STEP = 800
 
+// set size to 1 to detect bottlenecks using the channel profiler
 const CHAN_BUF_PAGE_WITH_CAR_LINKS = 10
 const CHAN_BUF_CAR_LINKS = 100
 const CHAN_BUF_CAR_PAGES = 100
 const CHAN_BUF_CAR = 100
 
 // it's good if those 2 are the same
-const THREADS_NET = 6
-const THREADS_DOWNLOAD_CAR_PAGES = 6
+const THREADS_NET = 30
+const THREADS_DOWNLOAD_CAR_PAGES = 30
 
 const THREADS_EXTRACT_CAR_LINKS = 1

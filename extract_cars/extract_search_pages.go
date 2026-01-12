@@ -23,20 +23,20 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 
 		price_min := max(price_max-define.PRICE_STEP, config.PRICE_MIN)
 
-		// fmt.Printf(
-		// 	"Extract Data For Price Range: [%v] / %v / %v / [%v]\n",
-		// 	config.PRICE_MIN,
-		// 	price_min,
-		// 	price_max,
-		// 	config.PRICE_MAX,
-		// )
+		fmt.Printf(
+			"Extract Data For Price Range: [%v] / %v / %v / [%v]\n",
+			config.PRICE_MIN,
+			price_min,
+			price_max,
+			config.PRICE_MAX,
+		)
 
 		extractSearchPagesWithinPriceRange(chan_net_req, chan_page_with_car_links, price_min, price_max)
 
 		price_max = price_min - 1
 	}
 
-	// fmt.Printf("Extract Data For Price Range: Done\n")
+	fmt.Printf("Extract Data For Price Range: Done\n")
 }
 
 func extractSearchPagesWithinPriceRange(

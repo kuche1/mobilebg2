@@ -1,10 +1,10 @@
 package config
 
-const NET_REQ_DELAY_MS = 30 // 800
+const NET_REQ_DELAY_MS = 1 // 800
 
 // prices are in EUR
 const PRICE_MIN = 1_000 // 1_852 // bgn 3_600
-const PRICE_MAX = 1_100 // 4_632 // bgn 9_000
+const PRICE_MAX = 1_800 // 4_632 // bgn 9_000
 
 //////////
 ////////// property filter

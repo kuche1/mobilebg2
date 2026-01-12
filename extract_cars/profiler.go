@@ -87,8 +87,8 @@ func (self *ChannelProfiler) ShowResults() {
 	time.Sleep(time.Millisecond * 100 * 2) // TODO: this is shit
 
 	fmt.Printf("Channel Blockings:\n")
-	fmt.Printf("chan_page_with_car_links: %3v / %3v | %v%%\n", self.chan_page_with_car_links_blockcount, self.samples_taken, 100*float32(self.chan_page_with_car_links_blockcount)/float32(self.samples_taken))
-	fmt.Printf("chan_car_links          : %3v / %3v | %v%%\n", self.chan_car_links_blockcount, self.samples_taken, 100*float32(self.chan_car_links_blockcount)/float32(self.samples_taken))
-	fmt.Printf("chan_car_pages          : %3v / %3v | %v%%\n", self.chan_car_pages_blockcount, self.samples_taken, 100*float32(self.chan_car_pages_blockcount)/float32(self.samples_taken))
-	fmt.Printf("chan_cars               : %3v / %3v | %v%%\n", self.chan_cars_blockcount, self.samples_taken, 100*float32(self.chan_cars_blockcount)/float32(self.samples_taken))
+	fmt.Printf("chan_page_with_car_links: %3v / %3v | %6.2v%%\n", self.chan_page_with_car_links_blockcount, self.samples_taken, 100*float32(self.chan_page_with_car_links_blockcount)/float32(self.samples_taken))
+	fmt.Printf("chan_car_links          : %3v / %3v | %6.2v%%\n", self.chan_car_links_blockcount, self.samples_taken, 100*float32(self.chan_car_links_blockcount)/float32(self.samples_taken))
+	fmt.Printf("chan_car_pages          : %3v / %3v | %6.2v%%\n", self.chan_car_pages_blockcount, self.samples_taken, 100*float32(self.chan_car_pages_blockcount)/float32(self.samples_taken))
+	fmt.Printf("chan_cars               : %3v / %3v | %6.2v%%\n", self.chan_cars_blockcount, self.samples_taken, 100*float32(self.chan_cars_blockcount)/float32(self.samples_taken))
 }
