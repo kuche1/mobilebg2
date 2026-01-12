@@ -23,6 +23,8 @@ const CHAN_BUF_CAR_LINKS = 100
 const CHAN_BUF_CAR_PAGES = 100
 const CHAN_BUF_CAR = 100
 
-const THREADS_NET = 4
+// it's good if those 2 are the same
+const THREADS_NET = 6
+const THREADS_DOWNLOAD_CAR_PAGES = 6
+
 const THREADS_EXTRACT_CAR_LINKS = 1
-const THREADS_DOWNLOAD_CAR_PAGES = 4
