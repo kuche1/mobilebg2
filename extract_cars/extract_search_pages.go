@@ -39,7 +39,7 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 	}
 
 	if page_num >= define.SEARCH_MAX_PAGE {
-		log.Printf("The very last search page was reached, it is possible that some cars were ommited")
+		log.Printf("The very last search page was reached, it is possible that some cars were omitted")
 	}
 
 }
