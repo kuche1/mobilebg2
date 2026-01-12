@@ -14,14 +14,14 @@ import (
 func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links chan *goquery.Document) {
 	defer close(chan_page_with_car_links)
 
-	price_max := config.PRICE_MAX_BGN
+	price_max := config.PRICE_MAX
 
 	for {
-		if price_max < config.PRICE_MIN_BGN {
+		if price_max < config.PRICE_MIN {
 			break
 		}
 
-		price_min := max(price_max-define.PRICE_STEP, config.PRICE_MIN_BGN)
+		price_min := max(price_max-define.PRICE_STEP, config.PRICE_MIN)
 
 		extractSearchPagesWithinPriceRange(chan_net_req, chan_page_with_car_links, price_min, price_max)
 
