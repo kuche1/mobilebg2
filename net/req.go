@@ -3,6 +3,7 @@ package net
 import (
 	"io"
 	"mobilebg2/config"
+	"mobilebg2/define"
 	"net/http"
 	"time"
 )
@@ -25,7 +26,11 @@ func Req(chan_requester chan *ReqData, url string) (chan_response chan []byte) {
 
 func RequesterInit() (chan_for_new_requests chan *ReqData) {
 	chan_requests := make(chan *ReqData)
-	go requesterThr(chan_requests)
+
+	for range define.THREADS_NET {
+		go requesterThr(chan_requests)
+	}
+
 	return chan_requests
 }
 
@@ -39,7 +44,7 @@ func requesterThr(chan_requests chan *ReqData) {
 			now := time.Now().UnixMilli()
 			diff := now - last_request_sent_at
 			// fmt.Printf("diff: %v\n", diff)
-			sleep_duration := config.NET_REQ_DELAY_MS - diff
+			sleep_duration := (config.NET_REQ_DELAY_MS * define.THREADS_NET) - diff // TODO: I don't like how we use multiplication here, ideally we would have a real mechanism for this
 			// fmt.Printf("sleep_duration: %v\n", sleep_duration)
 			time.Sleep(time.Millisecond * time.Duration(sleep_duration))
 			last_request_sent_at = time.Now().UnixMilli()

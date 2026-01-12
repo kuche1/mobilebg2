@@ -1,5 +1,8 @@
 package define
 
+const ENABLE_PROFILER_TRACE = false
+const ENABLE_PROFILER_CPU = false
+
 // `sort=6` - sort by newest
 // `pictonly=1` - only show if picture is available
 // `&privonly=1` - no car dealerships (inaccurate)
@@ -19,3 +22,7 @@ const CHAN_BUF_PAGE_WITH_CAR_LINKS = 10
 const CHAN_BUF_CAR_LINKS = 100
 const CHAN_BUF_CAR_PAGES = 100
 const CHAN_BUF_CAR = 100
+
+const THREADS_NET = 4
+const THREADS_EXTRACT_CAR_LINKS = 1
+const THREADS_DOWNLOAD_CAR_PAGES = 4

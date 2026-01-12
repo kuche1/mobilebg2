@@ -12,14 +12,19 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 	defer close(chan_cars)
 
 	for page_data := range chan_car_pages {
+		// fmt.Printf("extract_cars: got data\n")
+
 		elem_info := page_data.doc.Find("div.contactsBox").First()
 
 		title, blacklisted := findTitle(elem_info)
 		if blacklisted {
+			// fmt.Printf("extract_cars: processed data\n")
 			continue
 		}
 
 		chan_cars <- car.NewCar(page_data.link, title)
+
+		// fmt.Printf("extract_cars: processed data\n")
 	}
 }
 
@@ -32,7 +37,17 @@ func findTitle(elem_info *goquery.Selection) (value string, blacklisted bool) {
 
 	title_lower := strings.ToLower(title)
 
-	for _, blacklisted_title := range config.BLACKLIST_TITLE_PREFIX {
+	if len(config.TITLE_PREFIX_WHITELIST) > 0 {
+		for _, whitelisted_title := range config.TITLE_PREFIX_BLACKLIST {
+			whitelisted_title_lower := strings.ToLower(whitelisted_title)
+
+			if !strings.HasPrefix(title_lower, whitelisted_title_lower) {
+				return "", true
+			}
+		}
+	}
+
+	for _, blacklisted_title := range config.TITLE_PREFIX_BLACKLIST {
 		blacklisted_title_lower := strings.ToLower(blacklisted_title)
 
 		if strings.HasPrefix(title_lower, blacklisted_title_lower) {
