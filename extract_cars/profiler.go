@@ -71,6 +71,8 @@ func (self *ChannelProfiler) checkBlockings() {
 	for self.blockcount_running {
 		self.samples_taken += 1
 
+		// TODO: need to take the lens here in variables
+
 		///// full
 
 		if len(self.chan_page_with_car_links) == cap(self.chan_page_with_car_links) {

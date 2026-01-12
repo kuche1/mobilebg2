@@ -1,7 +1,6 @@
 package extract_cars
 
 import (
-	"fmt"
 	"mobilebg2/car"
 	"mobilebg2/config"
 	"strings"
@@ -12,16 +11,16 @@ import (
 func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 	defer close(chan_cars)
 
-	fmt.Printf("extractCars: Begin\n")
+	// fmt.Printf("extractCars: Begin\n")
 
 	for page_data := range chan_car_pages {
-		fmt.Printf("extractCars: Got some data\n")
+		// fmt.Printf("extractCars: Got some data\n")
 
 		elem_info := page_data.doc.Find("div.contactsBox").First()
 
 		title, blacklisted := findTitle(elem_info)
 		if blacklisted {
-			fmt.Printf("Blacklisted car: %v\n", title)
+			// fmt.Printf("Blacklisted car: %v\n", title)
 			continue
 		}
 
@@ -30,7 +29,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 		// fmt.Printf("extract_cars: processed data\n")
 	}
 
-	fmt.Printf("extractCars: End\n")
+	// fmt.Printf("extractCars: End\n")
 }
 
 func findTitle(elem_info *goquery.Selection) (value string, blacklisted bool) {

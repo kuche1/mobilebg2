@@ -8,7 +8,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func extractCarLinks(chan_page_with_car_links chan *goquery.Document, chan_car_links chan<- string) {
+func extractCarLinks(chan_page_with_car_links <-chan *goquery.Document, chan_car_links chan<- string) {
 	defer close(chan_car_links)
 
 	var wg sync.WaitGroup
@@ -22,7 +22,7 @@ func extractCarLinks(chan_page_with_car_links chan *goquery.Document, chan_car_l
 	wg.Wait()
 }
 
-func extractCarLinksThr(chan_page_with_car_links chan *goquery.Document, chan_car_links chan<- string) {
+func extractCarLinksThr(chan_page_with_car_links <-chan *goquery.Document, chan_car_links chan<- string) {
 	for doc := range chan_page_with_car_links {
 		// fmt.Printf("Extract Car Links: %v\n", doc)
 

@@ -35,8 +35,13 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 			config.PRICE_MAX,
 		)
 
+		// otherwise we are going to capture references ot the variables, and by the time
+		// the thread has started the values will have changed
+		anon_price_min := price_min
+		anon_price_max := price_max
+
 		wg.Go(func() {
-			extractSearchPagesWithinPriceRange(chan_net_req, chan_page_with_car_links, price_min, price_max)
+			extractSearchPagesWithinPriceRange(chan_net_req, chan_page_with_car_links, anon_price_min, anon_price_max)
 		})
 
 		price_max = price_min - 1
@@ -58,7 +63,7 @@ func extractSearchPagesWithinPriceRange(
 	for page_num = 1; page_num <= define.SEARCH_MAX_PAGE; page_num++ {
 
 		url := fmt.Sprintf(define.SEARCH_URL, page_num, price_min, price_max)
-		// fmt.Printf("Car Pages: Url: %v\n", url)
+		// fmt.Printf("Car Pages: Url: %v | price_min=%v price_max=%v\n", url, price_min, price_max)
 
 		raw_resp_bytes := <-net.Req(chan_net_req, url)
 		raw_resp_text := string(raw_resp_bytes)
