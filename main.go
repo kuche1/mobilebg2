@@ -66,9 +66,11 @@ func main() {
 
 	chan_net_req := net.RequesterInit()
 
-	chan_cars := extract_cars.Main(chan_net_req)
+	chan_cars, channel_profiler := extract_cars.Main(chan_net_req)
 
 	for car := range chan_cars {
 		fmt.Printf("car: %#v\n", car)
 	}
+
+	channel_profiler.ShowResults()
 }
