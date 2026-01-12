@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"golang.org/x/net/html/charset"
 )
 
 type carPageData struct {
@@ -22,7 +23,14 @@ func downloadCarPages(chan_net_req chan *net.ReqData, chan_car_links chan string
 		page_bytes := <-net.Req(chan_net_req, link)
 		page_text := string(page_bytes)
 
-		doc, err := goquery.NewDocumentFromReader(strings.NewReader(page_text))
+		reader0 := strings.NewReader(page_text)
+
+		reader1, err := charset.NewReaderLabel("windows-1251", reader0)
+		if err != nil {
+			panic(err)
+		}
+
+		doc, err := goquery.NewDocumentFromReader(reader1)
 		if err != nil {
 			log.Fatal(err)
 		}
