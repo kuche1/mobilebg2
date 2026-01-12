@@ -11,7 +11,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links chan *goquery.Document) {
+func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links chan<- *goquery.Document) {
 	defer close(chan_page_with_car_links)
 
 	price_max := config.PRICE_MAX
@@ -31,6 +31,7 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 			config.PRICE_MAX,
 		)
 
+		// TODO: this needs to be parallised
 		extractSearchPagesWithinPriceRange(chan_net_req, chan_page_with_car_links, price_min, price_max)
 
 		price_max = price_min - 1
@@ -41,7 +42,7 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 
 func extractSearchPagesWithinPriceRange(
 	chan_net_req chan *net.ReqData,
-	chan_page_with_car_links chan *goquery.Document,
+	chan_page_with_car_links chan<- *goquery.Document,
 	price_min int,
 	price_max int,
 ) {
