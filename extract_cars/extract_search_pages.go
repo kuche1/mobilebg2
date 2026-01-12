@@ -7,12 +7,15 @@ import (
 	"mobilebg2/define"
 	"mobilebg2/net"
 	"strings"
+	"sync"
 
 	"github.com/PuerkitoBio/goquery"
 )
 
 func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links chan<- *goquery.Document) {
 	defer close(chan_page_with_car_links)
+
+	var wg sync.WaitGroup
 
 	price_max := config.PRICE_MAX
 
@@ -23,6 +26,7 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 
 		price_min := max(price_max-define.PRICE_STEP, config.PRICE_MIN)
 
+		// TODO: this print sucks and is misleading
 		fmt.Printf(
 			"Extract Data For Price Range: [%v] / %v / %v / [%v]\n",
 			config.PRICE_MIN,
@@ -31,13 +35,16 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 			config.PRICE_MAX,
 		)
 
-		// TODO: this needs to be parallised
-		extractSearchPagesWithinPriceRange(chan_net_req, chan_page_with_car_links, price_min, price_max)
+		wg.Go(func() {
+			extractSearchPagesWithinPriceRange(chan_net_req, chan_page_with_car_links, price_min, price_max)
+		})
 
 		price_max = price_min - 1
 	}
 
 	fmt.Printf("Extract Data For Price Range: Done\n")
+
+	wg.Wait()
 }
 
 func extractSearchPagesWithinPriceRange(
