@@ -1,3 +1,5 @@
+// TODO: make this into it's own project
+
 package profiler
 
 import (
