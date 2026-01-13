@@ -69,6 +69,10 @@ func (self *ChannelProfiler) ShowResults() {
 	}
 }
 
+func (self *ChannelProfiler) AddChannels(channels ...*ChannelData) {
+	self.channels = append(self.channels, channels...) // TODO: does this mess with `range` ?
+}
+
 //////////
 ////////// channel data
 //////////

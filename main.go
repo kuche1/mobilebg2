@@ -9,6 +9,7 @@ import (
 	"mobilebg2/define"
 	"mobilebg2/extract_cars"
 	"mobilebg2/net"
+	"mobilebg2/profiler"
 	"os"
 	"runtime"
 	"runtime/pprof"
@@ -64,13 +65,15 @@ func main() {
 		// now I need to test that it works and then test it without the kernel parameter
 	}
 
+	channelProfiler := profiler.NewChannelProfiler()
+
 	chan_net_req := net.RequesterInit()
 
-	chan_cars, channel_profiler := extract_cars.Main(chan_net_req)
+	chan_cars := extract_cars.Main(channelProfiler, chan_net_req)
 
 	for car := range chan_cars {
 		fmt.Printf("car: %#v\n", car)
 	}
 
-	channel_profiler.ShowResults()
+	channelProfiler.ShowResults()
 }
