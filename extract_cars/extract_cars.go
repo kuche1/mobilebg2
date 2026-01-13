@@ -28,6 +28,20 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 
 		price := findPrice(elem_info)
 
+		// TODO: missing reseller
+
+		// TODO: missing engine type
+
+		// TODO: missing gearbox
+
+		// TODO: missing horsepower
+
+		// TODO: missing mialage
+
+		// TODO: missing date produced
+
+		// TODO: missing description
+
 		chan_cars <- car.NewCar(
 			page_data.link,
 			title,
