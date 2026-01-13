@@ -4,13 +4,13 @@ import (
 	"mobilebg2/car"
 	"mobilebg2/define"
 	"mobilebg2/net"
-	"mobilebg2/profiler"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/kuche1/channelprofiler"
 )
 
 func Main(
-	channelProfiler *profiler.ChannelProfiler,
+	channelProfiler *channelprofiler.ChannelProfiler,
 	chan_net_req chan *net.ReqData,
 ) (
 	chan_cars_ chan *car.Car,
@@ -21,10 +21,26 @@ func Main(
 	chan_cars := make(chan *car.Car, define.CHAN_BUF_CAR)
 
 	channelProfiler.AddChannels(
-		profiler.NewChannelData("chan_page_with_car_links", func() int { return len(chan_page_with_car_links) }, cap(chan_page_with_car_links)),
-		profiler.NewChannelData("chan_car_links", func() int { return len(chan_car_links) }, cap(chan_car_links)),
-		profiler.NewChannelData("chan_car_pages", func() int { return len(chan_car_pages) }, cap(chan_car_pages)),
-		profiler.NewChannelData("chan_cars", func() int { return len(chan_cars) }, cap(chan_cars)),
+		channelprofiler.NewChannelData(
+			"chan_page_with_car_links",
+			func() int { return len(chan_page_with_car_links) },
+			cap(chan_page_with_car_links),
+		),
+		channelprofiler.NewChannelData(
+			"chan_car_links",
+			func() int { return len(chan_car_links) },
+			cap(chan_car_links),
+		),
+		channelprofiler.NewChannelData(
+			"chan_car_pages",
+			func() int { return len(chan_car_pages) },
+			cap(chan_car_pages),
+		),
+		channelprofiler.NewChannelData(
+			"chan_cars",
+			func() int { return len(chan_cars) },
+			cap(chan_cars),
+		),
 	)
 
 	go extractSearchPages(chan_net_req, chan_page_with_car_links)

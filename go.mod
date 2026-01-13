@@ -1,6 +1,6 @@
 module mobilebg2
 
-go 1.25.4
+go 1.25.5
 
 require (
 	github.com/PuerkitoBio/goquery v1.11.0
@@ -9,5 +9,6 @@ require (
 
 require (
 	github.com/andybalholm/cascadia v1.3.3 // indirect
+	github.com/kuche1/channelprofiler v0.0.4 // indirect
 	golang.org/x/text v0.31.0 // indirect
 )
