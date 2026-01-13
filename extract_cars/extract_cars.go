@@ -24,7 +24,10 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			continue
 		}
 
-		chan_cars <- car.NewCar(page_data.link, title)
+		chan_cars <- car.NewCar(
+			page_data.link,
+			title,
+		)
 
 		// fmt.Printf("extract_cars: processed data\n")
 	}
