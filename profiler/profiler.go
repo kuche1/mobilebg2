@@ -11,18 +11,16 @@ import (
 //////////
 
 type ChannelProfiler struct {
-	running      bool
-	samplesTaken int
-	channels     []*ChannelData
+	running  bool
+	channels []*ChannelData
 }
 
 func NewChannelProfiler(
 	channels ...*ChannelData,
 ) *ChannelProfiler {
 	self := &ChannelProfiler{
-		running:      false,
-		samplesTaken: 0,
-		channels:     channels,
+		running:  false,
+		channels: channels,
 	}
 
 	go self.checkBlockings()
@@ -38,9 +36,9 @@ func (self *ChannelProfiler) checkBlockings() {
 	self.running = true
 
 	for self.running {
-		self.samplesTaken += 1
-
 		for _, channel := range self.channels {
+			channel.samples += 1
+
 			length := channel.getLength()
 
 			if length == 0 {
@@ -66,8 +64,8 @@ func (self *ChannelProfiler) ShowResults() {
 
 	for _, channel := range self.channels {
 		fmt.Printf("    %v:\n", channel.name)
-		fmt.Printf("        Empty: %6.2f%% | %3v / %3v\n", 100*float32(channel.countEmpty)/float32(self.samplesTaken), channel.countEmpty, self.samplesTaken)
-		fmt.Printf("        Full : %6.2f%% | %3v / %3v\n", 100*float32(channel.countFull)/float32(self.samplesTaken), channel.countFull, self.samplesTaken)
+		fmt.Printf("        Empty: %6.2f%% | %3v / %3v\n", 100*float32(channel.countEmpty)/float32(channel.samples), channel.countEmpty, channel.samples)
+		fmt.Printf("        Full : %6.2f%% | %3v / %3v\n", 100*float32(channel.countFull)/float32(channel.samples), channel.countFull, channel.samples)
 	}
 }
 
@@ -81,6 +79,7 @@ type ChannelData struct {
 	getLength func() int
 	capacity  int
 
+	samples    int
 	countEmpty int
 	countFull  int
 }
@@ -96,6 +95,7 @@ func NewChannelData(name string, getLength func() int, capacity int) *ChannelDat
 		getLength: getLength,
 		capacity:  capacity,
 
+		samples:    0,
 		countEmpty: 0,
 		countFull:  0,
 	}
