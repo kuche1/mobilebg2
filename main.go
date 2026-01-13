@@ -68,6 +68,7 @@ func main() {
 	channelProfiler := profiler.NewChannelProfiler()
 
 	chan_net_req := net.RequesterInit()
+	channelProfiler.AddChannels(profiler.NewChannelData("chan_net_req", func() int { return len(chan_net_req) }, cap(chan_net_req)))
 
 	chan_cars := extract_cars.Main(channelProfiler, chan_net_req)
 
