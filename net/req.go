@@ -27,7 +27,8 @@ func Req(chan_requester chan *ReqData, url string) (chan_response chan []byte) {
 }
 
 func RequesterInit() (chan_for_new_requests chan *ReqData) {
-	chan_requests := make(chan *ReqData)
+	chan_requests := make(chan *ReqData, 1)
+	// size 1 so that it can be profiled
 
 	for range define.THREADS_NET {
 		go requesterThr(chan_requests)
