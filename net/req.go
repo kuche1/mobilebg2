@@ -1,3 +1,5 @@
+// TODO: add caching, and if it turns out good make this into it's own project
+
 package net
 
 import (
