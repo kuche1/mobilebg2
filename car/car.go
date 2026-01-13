@@ -3,11 +3,17 @@ package car
 type Car struct {
 	link  string
 	title string
+	price float64
 }
 
-func NewCar(link string, title string) *Car {
+func NewCar(
+	link string,
+	title string,
+	price float64,
+) *Car {
 	return &Car{
-		link,
-		title,
+		link:  link,
+		title: title,
+		price: price,
 	}
 }

@@ -1,8 +1,10 @@
 package extract_cars
 
 import (
+	"log"
 	"mobilebg2/car"
 	"mobilebg2/config"
+	"strconv"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -24,9 +26,12 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			continue
 		}
 
+		price := findPrice(elem_info)
+
 		chan_cars <- car.NewCar(
 			page_data.link,
 			title,
+			price,
 		)
 
 		// fmt.Printf("extract_cars: processed data\n")
@@ -70,4 +75,20 @@ func findTitle(elem_info *goquery.Selection) (value string, blacklisted bool) {
 	}
 
 	return title, false
+}
+
+func findPrice(elem_info *goquery.Selection) float64 {
+	elem := elem_info.Find("div.Price").First()
+
+	price := strings.TrimSpace(elem.Text())
+	parts := strings.Split(price, "€")
+	price = strings.TrimSpace(parts[0])
+	price = strings.ReplaceAll(price, " ", "")
+
+	value, err := strconv.ParseFloat(price, 64)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return value
 }
