@@ -42,12 +42,19 @@ func findTitle(elem_info *goquery.Selection) (value string, blacklisted bool) {
 	title_lower := strings.ToLower(title)
 
 	if len(config.TITLE_PREFIX_WHITELIST) > 0 {
-		for _, whitelisted_title := range config.TITLE_PREFIX_BLACKLIST {
+		found := false
+
+		for _, whitelisted_title := range config.TITLE_PREFIX_WHITELIST {
 			whitelisted_title_lower := strings.ToLower(whitelisted_title)
 
-			if !strings.HasPrefix(title_lower, whitelisted_title_lower) {
-				return title, true
+			if strings.HasPrefix(title_lower, whitelisted_title_lower) {
+				found = true
+				break
 			}
+		}
+
+		if !found {
+			return title, true
 		}
 	}
 
@@ -55,7 +62,7 @@ func findTitle(elem_info *goquery.Selection) (value string, blacklisted bool) {
 		blacklisted_title_lower := strings.ToLower(blacklisted_title)
 
 		if strings.HasPrefix(title_lower, blacklisted_title_lower) {
-			return "", true
+			return title, true
 		}
 	}
 
