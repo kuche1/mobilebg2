@@ -4,6 +4,7 @@ package net
 
 import (
 	"io"
+	"log"
 	"mobilebg2/config"
 	"mobilebg2/define"
 	"net/http"
@@ -55,13 +56,13 @@ func requesterThr(chan_requests chan *ReqData) {
 
 		resp, err := http.Get(req_data.url)
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 		defer resp.Body.Close()
 
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 
 		// fmt.Println(string(body))
