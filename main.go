@@ -9,6 +9,7 @@ import (
 	"mobilebg2/define"
 	"mobilebg2/extract_cars"
 	"mobilebg2/net"
+	"mobilebg2/persistentstorage"
 	"os"
 	"runtime"
 	"runtime/pprof"
@@ -67,11 +68,13 @@ func main() {
 	}
 
 	channelProfiler := channelprofiler.NewChannelProfiler()
-
 	channelProfiler.Start()
 	defer channelProfiler.StopAndPrintResults()
 
-	chan_net_req := net.RequesterInit()
+	persistentStorage := persistentstorage.NewPersistentStorage(define.PERSISTENT_STORAGE)
+	defer persistentStorage.Close()
+
+	chan_net_req := net.RequesterInit(persistentStorage)
 	channelProfiler.AddChannels(channelprofiler.NewChannelData(
 		"chan_net_req",
 		func() int { return len(chan_net_req) },

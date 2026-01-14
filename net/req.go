@@ -7,6 +7,7 @@ import (
 	"log"
 	"mobilebg2/config"
 	"mobilebg2/define"
+	"mobilebg2/persistentstorage"
 	"net/http"
 	"time"
 )
@@ -27,42 +28,50 @@ func Req(chan_requester chan *ReqData, url string) (chan_response chan []byte) {
 	return
 }
 
-func RequesterInit() (chan_for_new_requests chan *ReqData) {
+func RequesterInit(persistentStorage *persistentstorage.PersistentStorage) (chan_for_new_requests chan *ReqData) {
 	chan_requests := make(chan *ReqData, 1)
 	// size 1 so that it can be profiled
 
-	for range define.THREADS_NET {
-		go requesterThr(chan_requests)
+	for range 1 {
+		go requesterThr(chan_requests, persistentStorage)
 	}
 
 	return chan_requests
 }
 
-func requesterThr(chan_requests chan *ReqData) {
+func requesterThr(chan_requests chan *ReqData, persistentStorage *persistentstorage.PersistentStorage) {
 	last_request_sent_at := time.Now().UnixMilli()
 
 	for req_data := range chan_requests {
+		storageKey := []byte(req_data.url)
 
-		// sleep if needed
-		{
-			now := time.Now().UnixMilli()
-			diff := now - last_request_sent_at
-			// fmt.Printf("diff: %v\n", diff)
-			sleep_duration := (config.NET_REQ_DELAY_MS * define.THREADS_NET) - diff // TODO: I don't like how we use multiplication here, ideally we would have a real mechanism for this
-			// fmt.Printf("sleep_duration: %v\n", sleep_duration)
-			time.Sleep(time.Millisecond * time.Duration(sleep_duration))
-			last_request_sent_at = time.Now().UnixMilli()
-		}
+		body, found := persistentStorage.Read(storageKey)
 
-		resp, err := http.Get(req_data.url)
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer resp.Body.Close()
+		if !found {
 
-		body, err := io.ReadAll(resp.Body)
-		if err != nil {
-			log.Fatal(err)
+			// sleep if needed
+			{
+				now := time.Now().UnixMilli()
+				diff := now - last_request_sent_at
+				// fmt.Printf("diff: %v\n", diff)
+				sleep_duration := (config.NET_REQ_DELAY_MS * define.THREADS_NET) - diff // TODO: I don't like how we use multiplication here, ideally we would have a real mechanism for this
+				// fmt.Printf("sleep_duration: %v\n", sleep_duration)
+				time.Sleep(time.Millisecond * time.Duration(sleep_duration))
+				last_request_sent_at = time.Now().UnixMilli()
+			}
+
+			resp, err := http.Get(req_data.url)
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer resp.Body.Close()
+
+			body, err = io.ReadAll(resp.Body)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			persistentStorage.Write(storageKey, body)
 		}
 
 		// fmt.Println(string(body))

@@ -9,6 +9,7 @@ import (
 
 func main() {
 	ps := NewPersistentStorage("db")
+	defer ps.Close()
 
 	///// write
 
