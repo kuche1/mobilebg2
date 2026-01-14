@@ -4,6 +4,7 @@ import (
 	"log"
 	"mobilebg2/car"
 	"mobilebg2/config"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -19,6 +20,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 		// fmt.Printf("extractCars: Got some data\n")
 
 		elem_info := page_data.doc.Find("div.contactsBox").First()
+		elem_params := page_data.doc.Find("div.mainCarParams").First()
 
 		title, blacklisted := findTitle(elem_info)
 		if blacklisted {
@@ -28,6 +30,11 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 
 		price, invalid := findPrice(elem_info, page_data.link)
 		if invalid {
+			continue
+		}
+
+		engineType, blacklisted := findEngineType(elem_params)
+		if blacklisted {
 			continue
 		}
 
@@ -49,6 +56,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			page_data.link,
 			title,
 			price,
+			engineType,
 		)
 
 		// fmt.Printf("extract_cars: processed data\n")
@@ -117,4 +125,19 @@ func findPrice(elem_info *goquery.Selection, url string) (_price float64, _inval
 	}
 
 	return value, false
+}
+
+func findEngineType(elem_params *goquery.Selection) (_engineType string, _blacklisted bool) {
+	elem := elem_params.Find("div.item.dvigatel").First()
+	// NOTE: original python code: soup.find("div", class_="item dvigatel")
+
+	elem = elem.Find("div.mpInfo")
+
+	engineType := elem.Text()
+
+	if slices.Contains(config.ENGINE_TYPE_BLACKLIST, engineType) {
+		return "", true
+	}
+
+	return engineType, false
 }
