@@ -1,5 +1,7 @@
 package car
 
+import "fmt"
+
 type Car struct {
 	link  string
 	title string
@@ -16,4 +18,17 @@ func NewCar(
 		title: title,
 		price: price,
 	}
+}
+
+func (self *Car) Sprintf() string {
+	return fmt.Sprintf(
+		`Car:
+    link: %v
+    title: %v
+    price: %v
+`,
+		self.link,
+		self.title,
+		self.price,
+	)
 }

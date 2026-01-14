@@ -85,7 +85,8 @@ func main() {
 
 	chan_cars := extract_cars.Main(channelProfiler, chan_net_req)
 
+	// TODO: dynamically fill some TUI
 	for car := range chan_cars {
-		fmt.Printf("car: %#v\n", car)
+		fmt.Printf("\n%v", car.Sprintf())
 	}
 }
