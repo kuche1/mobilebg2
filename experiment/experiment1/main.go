@@ -63,43 +63,51 @@ func main() {
 	ps := NewPersistentStorage()
 	defer ps.Close()
 
-	///// read
+	go func() {
 
-	// var value []byte
+		///// read
 
-	// err := ps.db.View(func(tx *bbolt.Tx) error {
-	// 	b := tx.Bucket([]byte("SomeBucketName"))
-	// 	val := b.Get([]byte("key"))
-	// 	copy(value, val) // TODO: I think it will fail otherwise
-	// 	return nil
-	// })
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+		// var value []byte
 
-	// log.Println(string(value))
+		// err := ps.db.View(func(tx *bbolt.Tx) error {
+		// 	b := tx.Bucket([]byte("SomeBucketName"))
+		// 	val := b.Get([]byte("key"))
+		// 	copy(value, val) // TODO: I think it will fail otherwise
+		// 	return nil
+		// })
+		// if err != nil {
+		// 	log.Fatal(err)
+		// }
 
-	value, found := ps.Read([]byte("key"))
-	if found {
-		fmt.Println(string(value))
-	} else {
-		fmt.Println("Not Found")
-	}
+		// log.Println(string(value))
 
-	///// write
+		value, found := ps.Read([]byte("key"))
+		if found {
+			fmt.Println(string(value))
+		} else {
+			fmt.Println("Not Found")
+		}
 
-	// err := ps.db.Update(func(tx *bbolt.Tx) error {
-	// 	bucket, err := tx.CreateBucketIfNotExists([]byte("SomeBucketName"))
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// 	return bucket.Put([]byte("key"), []byte("valueeee"))
-	// })
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+		///// write
 
-	ps.Write([]byte("key"), []byte("fggfgfdgfdgfdh"))
+		// err := ps.db.Update(func(tx *bbolt.Tx) error {
+		// 	bucket, err := tx.CreateBucketIfNotExists([]byte("SomeBucketName"))
+		// 	if err != nil {
+		// 		return err
+		// 	}
+		// 	return bucket.Put([]byte("key"), []byte("valueeee"))
+		// })
+		// if err != nil {
+		// 	log.Fatal(err)
+		// }
+
+		ps.Write([]byte("key"), []byte("fggfgfdgfdgfdh"))
+
+	}()
+
+	/////
+
+	time.Sleep(5 * time.Second)
 }
 
 //////////
