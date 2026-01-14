@@ -26,7 +26,10 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			continue
 		}
 
-		price := findPrice(elem_info)
+		price, invalid := findPrice(elem_info, page_data.link)
+		if invalid {
+			continue
+		}
 
 		// TODO: missing reseller
 
@@ -91,18 +94,27 @@ func findTitle(elem_info *goquery.Selection) (value string, blacklisted bool) {
 	return title, false
 }
 
-func findPrice(elem_info *goquery.Selection) float64 {
+func findPrice(elem_info *goquery.Selection, url string) (_price float64, _invalid bool) {
+	const eur = "€"
+
 	elem := elem_info.Find("div.Price").First()
 
 	price := strings.TrimSpace(elem.Text())
-	parts := strings.Split(price, "€")
+
+	if !strings.Contains(price, eur) {
+		log.Printf("Price in euros not found: %v", url)
+		return 0, true
+	}
+
+	parts := strings.Split(price, eur)
+
 	price = strings.TrimSpace(parts[0])
 	price = strings.ReplaceAll(price, " ", "")
 
 	value, err := strconv.ParseFloat(price, 64)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("URL `", url, "`:", err)
 	}
 
-	return value
+	return value, false
 }

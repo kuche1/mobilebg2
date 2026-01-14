@@ -1,6 +1,8 @@
 // go mod init mobilebg2
 // go mod tidy
 
+// TODO: print progress
+
 package main
 
 import (
