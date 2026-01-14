@@ -5,7 +5,6 @@ package net
 import (
 	"io"
 	"log"
-	"mobilebg2/config"
 	"mobilebg2/define"
 	"mobilebg2/persistentstorage"
 	"net/http"
@@ -54,7 +53,7 @@ func requesterThr(chan_requests chan *ReqData, persistentStorage *persistentstor
 				now := time.Now().UnixMilli()
 				diff := now - last_request_sent_at
 				// fmt.Printf("diff: %v\n", diff)
-				sleep_duration := (config.NET_REQ_DELAY_MS * define.THREADS_NET) - diff // TODO: I don't like how we use multiplication here, ideally we would have a real mechanism for this
+				sleep_duration := (define.NET_REQ_DELAY_MS * define.THREADS_NET) - diff // TODO: I don't like how we use multiplication here, ideally we would have a real mechanism for this
 				// fmt.Printf("sleep_duration: %v\n", sleep_duration)
 				time.Sleep(time.Millisecond * time.Duration(sleep_duration))
 				last_request_sent_at = time.Now().UnixMilli()
