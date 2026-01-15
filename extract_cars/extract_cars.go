@@ -1,6 +1,7 @@
 package extract_cars
 
 import (
+	"fmt"
 	"log"
 	"mobilebg2/car"
 	"mobilebg2/config"
@@ -38,6 +39,11 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			continue
 		}
 
+		horsepower, blacklisted := findHorsepower(elem_params)
+		if blacklisted {
+			continue
+		}
+
 		// TODO: missing reseller
 
 		// TODO: missing gearbox
@@ -55,6 +61,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			title,
 			price,
 			engineType,
+			horsepower,
 		)
 
 		// fmt.Printf("extract_cars: processed data\n")
@@ -138,4 +145,37 @@ func findEngineType(elem_params *goquery.Selection) (_engineType string, _blackl
 	}
 
 	return engineType, false
+}
+
+func findHorsepower(elem_params *goquery.Selection) (_value int64, _blacklisted bool) {
+	elem := elem_params.Find("div.item.moshtnost").First()
+	// NOTE: original python code: soup.find("div", class_="item moshtnost")
+
+	if elem.Length() == 0 {
+		if config.HORSEPOWER_MISSING_OK {
+			return -1, false
+		}
+		return -1, true
+	}
+
+	elem = elem.Find("div.mpInfo")
+
+	valueAsStr := elem.Text()
+
+	suffix := " к.с."
+	if !strings.HasSuffix(valueAsStr, suffix) {
+		panic("The site must have changed")
+	}
+	valueAsStr = strings.TrimSuffix(valueAsStr, suffix)
+
+	valueAsInt, err := strconv.ParseInt(valueAsStr, 10, 64)
+	if err != nil {
+		panic(fmt.Sprintf("The site must have changed: %v", err))
+	}
+
+	if valueAsInt < config.HORSEPOWER_MIN {
+		return -1, true
+	}
+
+	return valueAsInt, false
 }

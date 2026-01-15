@@ -29,3 +29,9 @@ var TITLE_PREFIX_WHITELIST = []string{
 var ENGINE_TYPE_BLACKLIST = []string{
 	"Дизелов",
 }
+
+///// horsepower
+
+const HORSEPOWER_MISSING_OK = true
+
+const HORSEPOWER_MIN = 60
