@@ -48,8 +48,6 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 
 		// TODO: missing gearbox
 
-		// TODO: missing horsepower
-
 		// TODO: missing mialage
 
 		// TODO: missing date produced
