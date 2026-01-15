@@ -17,6 +17,9 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 
 	var wg sync.WaitGroup
 
+	threadsSpawned := 0
+	chanThreadDone := make(chan struct{})
+
 	price_max := config.PRICE_MAX
 
 	for {
@@ -26,14 +29,14 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 
 		price_min := max(price_max-define.PRICE_STEP, config.PRICE_MIN)
 
-		// TODO: this print sucks and is misleading
-		fmt.Printf(
-			"Extract Data For Price Range: [%v] / %v / %v / [%v]\n",
-			config.PRICE_MIN,
-			price_min,
-			price_max,
-			config.PRICE_MAX,
-		)
+		// this print sucks and is misleading
+		// fmt.Printf(
+		// 	"Extract Data For Price Range: [%v] / %v / %v / [%v]\n",
+		// 	config.PRICE_MIN,
+		// 	price_min,
+		// 	price_max,
+		// 	config.PRICE_MAX,
+		// )
 
 		// otherwise we are going to capture references ot the variables, and by the time
 		// the thread has started the values will have changed
@@ -41,15 +44,30 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 		anon_price_max := price_max
 
 		wg.Go(func() {
-			extractSearchPagesWithinPriceRange(chan_net_req, chan_page_with_car_links, anon_price_min, anon_price_max)
+			extractSearchPagesWithinPriceRange(chan_net_req, chan_page_with_car_links, anon_price_min, anon_price_max, chanThreadDone)
 		})
+		threadsSpawned += 1
 
 		price_max = price_min - 1
 	}
 
-	fmt.Printf("Extract Data For Price Range: Done\n")
+	// fmt.Printf("Extract Data For Price Range: Done\n")
+
+	for {
+		fmt.Printf("Loading: %v tasks left\n", threadsSpawned)
+
+		if threadsSpawned == 0 {
+			break
+		}
+
+		<-chanThreadDone
+
+		threadsSpawned -= 1
+	}
 
 	wg.Wait()
+
+	// fmt.Printf("Loading: Done\n")
 }
 
 func extractSearchPagesWithinPriceRange(
@@ -57,7 +75,10 @@ func extractSearchPagesWithinPriceRange(
 	chan_page_with_car_links chan<- *goquery.Document,
 	price_min int,
 	price_max int,
+	chanThreadDone chan<- struct{},
 ) {
+	defer func() { chanThreadDone <- struct{}{} }()
+
 	var page_num int
 
 	for page_num = 1; page_num <= define.SEARCH_MAX_PAGE; page_num++ {
