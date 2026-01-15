@@ -6,11 +6,11 @@ import (
 )
 
 type Car struct {
-	link       string
-	title      string
-	price      float64
-	engineType string
-	horsepower int64
+	Link       string
+	Title      string
+	Price      float64
+	EngineType string
+	Horsepower int64
 }
 
 func NewCar(
@@ -21,11 +21,11 @@ func NewCar(
 	horsepower int64,
 ) *Car {
 	return &Car{
-		link:       link,
-		title:      title,
-		price:      price,
-		engineType: engineType,
-		horsepower: horsepower,
+		Link:       link,
+		Title:      title,
+		Price:      price,
+		EngineType: engineType,
+		Horsepower: horsepower,
 	}
 }
 
@@ -38,10 +38,10 @@ func (self *Car) Sprintf() string {
     engine type: %v
     horsepower: %v
 `,
-		self.link,
-		self.title,
-		self.price, define.CURRENCY,
-		self.engineType,
-		self.horsepower,
+		self.Link,
+		self.Title,
+		self.Price, define.CURRENCY,
+		self.EngineType,
+		self.Horsepower,
 	)
 }

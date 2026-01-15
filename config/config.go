@@ -12,16 +12,37 @@ var TITLE_PREFIX_BLACKLIST = []string{
 	"mercedes",
 }
 
+// for the full list see
+// https://www.mobile.bg/search/avtomobili-dzhipove
+// "Марка" and "Модел"
 var TITLE_PREFIX_WHITELIST = []string{
-	"toyota",
-	"honda",
-	"lexus",
-	"subaru",
-	"nissan",
-	"mazda",
-	"golf",
-	"kia",
-	"hyundai",
+	"honda civic",
+	"honda cr-v",
+	"honda element",
+	"honda odyssey",
+	"honda pilot",
+
+	"hyundai", // TODO
+
+	"kia sorento",
+
+	"lexus es",
+	"lexus gx",
+
+	"mazda cx-9",
+	"mazda 3",
+	"mazda 5",
+	"mazda 6",
+
+	"nissan", // TODO
+
+	"subaru forester",
+	"subaru legacy",
+	"subaru outback",
+
+	"toyota", // TODO
+
+	"vw golf",
 }
 
 ///// engine type
