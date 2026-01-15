@@ -2,7 +2,9 @@ package extract_cars
 
 import (
 	"fmt"
+	"mobilebg2/config"
 	"mobilebg2/define"
+	"slices"
 	"sync"
 
 	"github.com/PuerkitoBio/goquery"
@@ -39,6 +41,10 @@ func extractCarLinksThr(chan_page_with_car_links <-chan *goquery.Document, chan_
 			href = define.CAR_LINK_PREFIX + href
 
 			// fmt.Printf("href2: %v\n", href)
+
+			if slices.Contains(config.LINK_BLACKLIST, href) {
+				return
+			}
 
 			chan_car_links <- href
 		})

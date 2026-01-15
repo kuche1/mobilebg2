@@ -6,6 +6,12 @@ package config
 const PRICE_MIN = 1_852 // bgn 3_600
 const PRICE_MAX = 3_852 // 4_632 // bgn 9_000
 
+///// link
+
+var LINK_BLACKLIST = []string{
+	"https://www.mobile.bg/obiava-11767956291631060-bmw-740-li-xdrive",
+}
+
 ///// brand
 
 var TITLE_PREFIX_BLACKLIST = []string{
