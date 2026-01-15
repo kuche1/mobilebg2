@@ -1,6 +1,9 @@
 package car
 
-import "fmt"
+import (
+	"fmt"
+	"mobilebg2/define"
+)
 
 type Car struct {
 	link       string
@@ -31,13 +34,13 @@ func (self *Car) Sprintf() string {
 		`Car:
     link: %v
     title: %v
-    price: %v
+    price: %v %v
     engine type: %v
     horsepower: %v
 `,
 		self.link,
 		self.title,
-		self.price,
+		self.price, define.CURRENCY,
 		self.engineType,
 		self.horsepower,
 	)
