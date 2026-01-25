@@ -94,4 +94,5 @@ var YEAR_PRODUCED_WHITELIST = []int16{
 
 const MIALAGE_MISSING_OK = true
 
-// TODO: blacklist
+const MIALAGE_MIN = 000_000
+const MIALAGE_MAX = 999_999

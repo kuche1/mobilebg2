@@ -58,8 +58,6 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 
 		// TODO: missing gearbox
 
-		// TODO: missing mialage
-
 		// TODO: missing description
 
 		chan_cars <- car.NewCar(
@@ -259,6 +257,14 @@ func findMialage(elem_params *goquery.Selection) (_mialage int64, _blacklisted b
 	mialageAsInt, err := strconv.ParseInt(mialageAsStr, 10, 64)
 	if err != nil {
 		panic(fmt.Sprintf("Not a valid mialage: %v", err))
+	}
+
+	if mialageAsInt < config.MIALAGE_MIN {
+		return -1, true
+	}
+
+	if mialageAsInt > config.MIALAGE_MAX {
+		return -1, true
 	}
 
 	return mialageAsInt, false
