@@ -87,3 +87,11 @@ const YEAR_PRODUCED_MAX = 9999
 var YEAR_PRODUCED_WHITELIST = []int16{
 	// 2009,
 }
+
+//////////
+////////// mialage
+//////////
+
+const MIALAGE_MISSING_OK = true
+
+// TODO: blacklist

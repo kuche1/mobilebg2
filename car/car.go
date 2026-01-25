@@ -12,6 +12,7 @@ type Car struct {
 	EngineType   string
 	Horsepower   int64
 	YearProduced int16
+	Mialage      int64
 }
 
 func NewCar(
@@ -21,6 +22,7 @@ func NewCar(
 	engineType string,
 	horsepower int64,
 	yearProduced int16,
+	mialage int64,
 ) *Car {
 	return &Car{
 		Link:         link,
@@ -29,6 +31,7 @@ func NewCar(
 		EngineType:   engineType,
 		Horsepower:   horsepower,
 		YearProduced: yearProduced,
+		Mialage:      mialage,
 	}
 }
 
@@ -41,6 +44,7 @@ func (self *Car) Sprintf() string {
     engine type: %v
     horsepower: %v
     year produced: %v
+    mialage: %v km
 `,
 		self.Link,
 		self.Title,
@@ -48,5 +52,6 @@ func (self *Car) Sprintf() string {
 		self.EngineType,
 		self.Horsepower,
 		self.YearProduced,
+		self.Mialage,
 	)
 }

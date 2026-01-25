@@ -49,6 +49,11 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			continue
 		}
 
+		mialage, blacklisted := findMialage(elem_params)
+		if blacklisted {
+			continue
+		}
+
 		// TODO: missing reseller
 
 		// TODO: missing gearbox
@@ -64,6 +69,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			engineType,
 			horsepower,
 			yearProduced,
+			mialage,
 		)
 
 		// fmt.Printf("extract_cars: processed data\n")
@@ -225,4 +231,35 @@ func findYearProduced(elem_params *goquery.Selection) (_year int16, _blacklisted
 	}
 
 	return yearAsInt, false
+}
+
+func findMialage(elem_params *goquery.Selection) (_mialage int64, _blacklisted bool) {
+	elem := elem_params.Find("div.item.probeg").First()
+	// NOTE: original python code: soup.find("div", class_="item probeg")
+
+	if elem.Length() == 0 {
+		if config.MIALAGE_MISSING_OK {
+			return 999_999, false
+		}
+		return -1, true
+	}
+
+	elem = elem.Find("div.mpInfo")
+
+	mialageAsStr := elem.Text()
+
+	suffix := " км"
+
+	if !strings.HasSuffix(mialageAsStr, suffix) {
+		panic(fmt.Sprintf("Expected suffix `%v`: %v", suffix, mialageAsStr))
+	}
+
+	mialageAsStr = strings.TrimSuffix(mialageAsStr, suffix)
+
+	mialageAsInt, err := strconv.ParseInt(mialageAsStr, 10, 64)
+	if err != nil {
+		panic(fmt.Sprintf("Not a valid mialage: %v", err))
+	}
+
+	return mialageAsInt, false
 }
