@@ -28,10 +28,8 @@ github.com/klauspost/compress v1.18.0 h1:c/Cqfb0r+Yi+JtIEq73FWXVkRonBlf0CRNYc8Zt
 github.com/klauspost/compress v1.18.0/go.mod h1:2Pp+KzxcywXVXMr50+X0Q/Lsb43OQHYWRCY2AiWywWQ=
 github.com/kuche1/channelprofiler v0.0.4 h1:B4jzco5fPcgU8RQ0FS6oUOlK5ajSCl5H9x2bht66cho=
 github.com/kuche1/channelprofiler v0.0.4/go.mod h1:gczPIAXSEX7vUFkdDLRQjg45cXQVuScrkb/uj2PQVL0=
-github.com/kuche1/gonet v0.0.0-20260125163823-02a45420202b h1:wFwmddbWNf/0JCOOmLIMUPW2UJwcS58PyLl+BkFqVj4=
-github.com/kuche1/gonet v0.0.0-20260125163823-02a45420202b/go.mod h1:a6lYF8W2zb2pogjBiYVr3CElOnWWTlb3d+deliKtePU=
-github.com/kuche1/persistentstorage v0.0.0-20260125131427-3e8b031ff892 h1:25I097wNNPNVK3PwvVs/atgkjvjyPGA4Na3+WAYvJxA=
-github.com/kuche1/persistentstorage v0.0.0-20260125131427-3e8b031ff892/go.mod h1:KbfAh3SF6bYOXIGxeXo8bqcRhLiS57E06r2eFudGM80=
+github.com/kuche1/gonet v0.0.0-20260125165247-64d55f432e3c h1:4WYBI4KJ78OoF1Fc/ymBAbb5dczvQ4Jt+db+7TpWjlY=
+github.com/kuche1/gonet v0.0.0-20260125165247-64d55f432e3c/go.mod h1:a6lYF8W2zb2pogjBiYVr3CElOnWWTlb3d+deliKtePU=
 github.com/kuche1/persistentstorage v0.0.0-20260125132431-08dd73146aac h1:A/TW/X0S4UHrPSDJpMOjCoc3+oQ0reeR6w6zHFNmXUI=
 github.com/kuche1/persistentstorage v0.0.0-20260125132431-08dd73146aac/go.mod h1:hwKlSN47GoJmg7pDN0I8LR3+yGHZsmCUT8pcE2EfOwQ=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
