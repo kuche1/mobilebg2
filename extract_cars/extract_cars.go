@@ -206,7 +206,7 @@ func findYearProduced(elem_params *goquery.Selection) (_year int64, _blacklisted
 
 	valueAsInt, err := strconv.ParseInt(yearAsStr, 10, 64)
 	if err != nil {
-		panic(fmt.Sprintf("Not a valid year: ", err))
+		panic(fmt.Sprintf("Not a valid year: %v", err))
 	}
 
 	return valueAsInt, false
