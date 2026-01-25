@@ -1,18 +1,24 @@
 package config
 
-///// price
+//////////
+////////// price
+//////////
 
 // prices are in EUR
 const PRICE_MIN = 1_852 // bgn 3_600
 const PRICE_MAX = 3_852 // 4_632 // bgn 9_000
 
-///// link
+//////////
+////////// link
+//////////
 
 var LINK_BLACKLIST = []string{
 	"https://www.mobile.bg/obiava-11767956291631060-bmw-740-li-xdrive",
 }
 
-///// brand
+//////////
+////////// brand
+//////////
 
 var TITLE_PREFIX_BLACKLIST = []string{
 	"mercedes",
@@ -51,15 +57,25 @@ var TITLE_PREFIX_WHITELIST = []string{
 	"vw golf",
 }
 
-///// engine type
+//////////
+////////// engine type
+//////////
 
 var ENGINE_TYPE_BLACKLIST = []string{
 	"Дизелов",
 	"Електрически",
 }
 
-///// horsepower
+//////////
+////////// horsepower
+//////////
 
 const HORSEPOWER_MISSING_OK = true
 
 const HORSEPOWER_MIN = 60
+
+//////////
+////////// year produced
+//////////
+
+const YEAR_PRODUCED_MISSING_OK = true

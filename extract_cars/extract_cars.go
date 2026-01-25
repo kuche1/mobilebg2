@@ -44,13 +44,16 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			continue
 		}
 
+		yearProduced, blacklisted := findYearProduced(elem_params)
+		if blacklisted {
+			continue
+		}
+
 		// TODO: missing reseller
 
 		// TODO: missing gearbox
 
 		// TODO: missing mialage
-
-		// TODO: missing date produced
 
 		// TODO: missing description
 
@@ -60,6 +63,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			price,
 			engineType,
 			horsepower,
+			yearProduced,
 		)
 
 		// fmt.Printf("extract_cars: processed data\n")
@@ -173,6 +177,36 @@ func findHorsepower(elem_params *goquery.Selection) (_value int64, _blacklisted 
 
 	if valueAsInt < config.HORSEPOWER_MIN {
 		return -1, true
+	}
+
+	return valueAsInt, false
+}
+
+func findYearProduced(elem_params *goquery.Selection) (_year int64, _blacklisted bool) {
+	elem := elem_params.Find("div.item.proizvodstvo").First()
+	// NOTE: original python code: elem_params.find("div", class_="item proizvodstvo")
+
+	if elem.Length() == 0 {
+		if config.YEAR_PRODUCED_MISSING_OK {
+			return -1, false
+		}
+		return -1, true
+	}
+
+	elem = elem.Find("div.mpInfo")
+
+	monthAndYear := elem.Text()
+
+	parts := strings.Split(monthAndYear, " ")
+	if len(parts) != 2 {
+		panic("Unexpected month and year format")
+	}
+
+	yearAsStr := parts[1]
+
+	valueAsInt, err := strconv.ParseInt(yearAsStr, 10, 64)
+	if err != nil {
+		panic(fmt.Sprintf("Not a valid year: ", err))
 	}
 
 	return valueAsInt, false
