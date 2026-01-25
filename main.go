@@ -15,6 +15,7 @@ import (
 	"runtime"
 	"runtime/pprof"
 	"runtime/trace"
+	"time"
 
 	"github.com/kuche1/channelprofiler"
 	"github.com/kuche1/gonet"
@@ -108,10 +109,10 @@ func main() {
 	// 	fmt.Printf("%v\n", car.Sprintf())
 	// }
 
-	// fmt.Print("==================================================\n")
-	// fmt.Print("All Done\n")
-	//
-	// for {
-	// 	time.Sleep(1 * time.Second)
-	// }
+	fmt.Print("==================================================\n")
+	fmt.Print("All Done\n")
+
+	for {
+		time.Sleep(1 * time.Second)
+	}
 }
