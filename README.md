@@ -1,2 +1,2 @@
 
-run with `go run .`
+Run with `go run .`
