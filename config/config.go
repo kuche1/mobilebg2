@@ -79,3 +79,11 @@ const HORSEPOWER_MIN = 60
 //////////
 
 const YEAR_PRODUCED_MISSING_OK = true
+
+const YEAR_PRODUCED_MIN = 0000
+const YEAR_PRODUCED_MAX = 9999
+
+// filter will be applied only if there is at least 1 element
+var YEAR_PRODUCED_WHITELIST = []int16{
+	// 2009,
+}

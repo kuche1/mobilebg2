@@ -182,7 +182,7 @@ func findHorsepower(elem_params *goquery.Selection) (_value int64, _blacklisted 
 	return valueAsInt, false
 }
 
-func findYearProduced(elem_params *goquery.Selection) (_year int64, _blacklisted bool) {
+func findYearProduced(elem_params *goquery.Selection) (_year int16, _blacklisted bool) {
 	elem := elem_params.Find("div.item.proizvodstvo").First()
 	// NOTE: original python code: elem_params.find("div", class_="item proizvodstvo")
 
@@ -204,10 +204,25 @@ func findYearProduced(elem_params *goquery.Selection) (_year int64, _blacklisted
 
 	yearAsStr := parts[1]
 
-	valueAsInt, err := strconv.ParseInt(yearAsStr, 10, 64)
+	yearAsInt64, err := strconv.ParseInt(yearAsStr, 10, 16)
 	if err != nil {
 		panic(fmt.Sprintf("Not a valid year: %v", err))
 	}
+	yearAsInt := int16(yearAsInt64)
 
-	return valueAsInt, false
+	if yearAsInt < config.YEAR_PRODUCED_MIN {
+		return -1, true
+	}
+
+	if yearAsInt > config.YEAR_PRODUCED_MAX {
+		return -1, true
+	}
+
+	if len(config.YEAR_PRODUCED_WHITELIST) > 0 {
+		if !slices.Contains(config.YEAR_PRODUCED_WHITELIST, yearAsInt) {
+			return -1, true
+		}
+	}
+
+	return yearAsInt, false
 }

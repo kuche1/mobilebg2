@@ -11,7 +11,7 @@ type Car struct {
 	Price        float64
 	EngineType   string
 	Horsepower   int64
-	YearProduced int64
+	YearProduced int16
 }
 
 func NewCar(
@@ -20,7 +20,7 @@ func NewCar(
 	price float64,
 	engineType string,
 	horsepower int64,
-	yearProduced int64,
+	yearProduced int16,
 ) *Car {
 	return &Car{
 		Link:         link,
