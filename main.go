@@ -8,16 +8,16 @@ package main
 import (
 	"fmt"
 	"log"
+	"mobilebg2/config"
 	"mobilebg2/define"
 	"mobilebg2/extract_cars"
-	"mobilebg2/net"
 	"os"
 	"runtime"
 	"runtime/pprof"
 	"runtime/trace"
 
 	"github.com/kuche1/channelprofiler"
-	"github.com/kuche1/persistentstorage"
+	"github.com/kuche1/gonet"
 )
 
 func main() {
@@ -73,17 +73,18 @@ func main() {
 	channelProfiler.Start()
 	// defer channelProfiler.StopAndPrintResults()
 
-	persistentStorage := persistentstorage.NewPersistentStorage(define.PERSISTENT_STORAGE)
-	defer persistentStorage.Close()
+	// persistentStorage := persistentstorage.NewPersistentStorage(define.PERSISTENT_STORAGE)
+	// defer persistentStorage.Close()
+	//
+	// chan_net_req := gonet.RequesterInit(persistentStorage)
+	// channelProfiler.AddChannels(channelprofiler.NewChannelData(
+	// 	"chan_net_req",
+	// 	func() int { return len(chan_net_req) },
+	// 	cap(chan_net_req),
+	// ))
+	net := gonet.NewNet(config.NET_REQUEST_DELAY_MS, config.NET_CACHE_PATH, config.NET_RESPONSE_VALIDITY_SEC)
 
-	chan_net_req := net.RequesterInit(persistentStorage)
-	channelProfiler.AddChannels(channelprofiler.NewChannelData(
-		"chan_net_req",
-		func() int { return len(chan_net_req) },
-		cap(chan_net_req),
-	))
-
-	chan_cars := extract_cars.Main(channelProfiler, chan_net_req)
+	chan_cars := extract_cars.Main(channelProfiler, net)
 
 	// allCars := make([]*car.Car, 0)
 

@@ -1,6 +1,14 @@
 package config
 
 //////////
+////////// net
+//////////
+
+const NET_REQUEST_DELAY_MS = 1
+const NET_CACHE_PATH = "./net_cache"
+const NET_RESPONSE_VALIDITY_SEC = 60 * 50 * 24 * 3 // 3 days
+
+//////////
 ////////// price
 //////////
 

@@ -5,14 +5,14 @@ import (
 	"log"
 	"mobilebg2/config"
 	"mobilebg2/define"
-	"mobilebg2/net"
 	"strings"
 	"sync"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/kuche1/gonet"
 )
 
-func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links chan<- *goquery.Document) {
+func extractSearchPages(net *gonet.Net, chan_page_with_car_links chan<- *goquery.Document) {
 	defer close(chan_page_with_car_links)
 
 	var wg sync.WaitGroup
@@ -44,7 +44,7 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 		anon_price_max := price_max
 
 		wg.Go(func() {
-			extractSearchPagesWithinPriceRange(chan_net_req, chan_page_with_car_links, anon_price_min, anon_price_max, chanThreadDone)
+			extractSearchPagesWithinPriceRange(net, chan_page_with_car_links, anon_price_min, anon_price_max, chanThreadDone)
 		})
 		threadsSpawned += 1
 
@@ -71,7 +71,7 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 }
 
 func extractSearchPagesWithinPriceRange(
-	chan_net_req chan *net.ReqData,
+	net *gonet.Net,
 	chan_page_with_car_links chan<- *goquery.Document,
 	price_min int,
 	price_max int,
@@ -86,7 +86,7 @@ func extractSearchPagesWithinPriceRange(
 		url := fmt.Sprintf(define.SEARCH_URL, page_num, price_min, price_max)
 		// fmt.Printf("Car Pages: Url: %v | price_min=%v price_max=%v\n", url, price_min, price_max)
 
-		raw_resp_bytes := <-net.Req(chan_net_req, url)
+		raw_resp_bytes := net.Req(url)
 		raw_resp_text := string(raw_resp_bytes)
 
 		doc, err := goquery.NewDocumentFromReader(strings.NewReader(raw_resp_text))

@@ -3,15 +3,15 @@ package extract_cars
 import (
 	"mobilebg2/car"
 	"mobilebg2/define"
-	"mobilebg2/net"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/kuche1/channelprofiler"
+	"github.com/kuche1/gonet"
 )
 
 func Main(
 	channelProfiler *channelprofiler.ChannelProfiler,
-	chan_net_req chan *net.ReqData,
+	net *gonet.Net,
 ) (
 	chan_cars_ chan *car.Car,
 ) {
@@ -43,9 +43,9 @@ func Main(
 		),
 	)
 
-	go extractSearchPages(chan_net_req, chan_page_with_car_links)
+	go extractSearchPages(net, chan_page_with_car_links)
 	go extractCarLinks(chan_page_with_car_links, chan_car_links)
-	go downloadCarPages(chan_net_req, chan_car_links, chan_car_pages)
+	go downloadCarPages(net, chan_car_links, chan_car_pages)
 	go extractCars(chan_car_pages, chan_cars)
 
 	return chan_cars
