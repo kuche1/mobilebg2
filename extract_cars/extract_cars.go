@@ -54,9 +54,12 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			continue
 		}
 
-		// TODO: missing reseller
+		gearbox, blacklisted := findGearbox(elem_params)
+		if blacklisted {
+			continue
+		}
 
-		// TODO: missing gearbox
+		// TODO: missing reseller
 
 		// TODO: missing description
 
@@ -68,6 +71,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			horsepower,
 			yearProduced,
 			mialage,
+			gearbox,
 		)
 
 		// fmt.Printf("extract_cars: processed data\n")
@@ -268,4 +272,19 @@ func findMialage(elem_params *goquery.Selection) (_mialage int64, _blacklisted b
 	}
 
 	return mialageAsInt, false
+}
+
+func findGearbox(elem_params *goquery.Selection) (_gearbox string, _blacklisted bool) {
+	elem := elem_params.Find("div.item.skorosti").First()
+	// NOTE: original python code: soup.find("div", class_="item skorosti")
+
+	if elem.Length() == 0 {
+		panic("Gearbox missing")
+	}
+
+	elem = elem.Find("div.mpInfo")
+
+	gearbox := elem.Text()
+
+	return gearbox, false
 }

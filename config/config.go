@@ -5,15 +5,15 @@ package config
 //////////
 
 // prices are in EUR
-const PRICE_MIN = 1_852 // bgn 3_600
-const PRICE_MAX = 3_852 // 4_632 // bgn 9_000
+const PRICE_MIN = 10_000 //1_852 // bgn 3_600
+const PRICE_MAX = 15_000 //3_852 // 4_632 // bgn 9_000
 
 //////////
 ////////// link
 //////////
 
 var LINK_BLACKLIST = []string{
-	"https://www.mobile.bg/obiava-11767956291631060-bmw-740-li-xdrive",
+	// "https://www.mobile.bg/obiava-11767956291631060-bmw-740-li-xdrive",
 }
 
 //////////
@@ -21,7 +21,7 @@ var LINK_BLACKLIST = []string{
 //////////
 
 var TITLE_PREFIX_BLACKLIST = []string{
-	"mercedes",
+	// "mercedes",
 }
 
 // for the full list see
@@ -29,32 +29,32 @@ var TITLE_PREFIX_BLACKLIST = []string{
 // "Марка" and "Модел"
 var TITLE_PREFIX_WHITELIST = []string{
 	"honda civic",
-	"honda cr-v",
-	"honda element",
-	"honda odyssey",
-	"honda pilot",
+	// "honda cr-v",
+	// "honda element",
+	// "honda odyssey",
+	// "honda pilot",
 
-	"hyundai", // TODO
+	// "hyundai", // TODO
 
-	"kia sorento",
+	// "kia sorento",
 
-	"lexus es",
-	"lexus gx",
+	// "lexus es",
+	// "lexus gx",
 
-	"mazda cx-9",
-	"mazda 3",
-	"mazda 5",
-	"mazda 6",
+	// "mazda cx-9",
+	// "mazda 3",
+	// "mazda 5",
+	// "mazda 6",
 
-	"nissan", // TODO
+	// "nissan", // TODO
 
-	"subaru forester",
-	"subaru legacy",
-	"subaru outback",
+	// "subaru forester",
+	// "subaru legacy",
+	// "subaru outback",
 
-	"toyota", // TODO
+	// "toyota", // TODO
 
-	"vw golf",
+	// "vw golf",
 }
 
 //////////
@@ -70,18 +70,18 @@ var ENGINE_TYPE_BLACKLIST = []string{
 ////////// horsepower
 //////////
 
-const HORSEPOWER_MISSING_OK = true
+const HORSEPOWER_MISSING_OK = false // true
 
-const HORSEPOWER_MIN = 60
+const HORSEPOWER_MIN = 158 // 60
 
 //////////
 ////////// year produced
 //////////
 
-const YEAR_PRODUCED_MISSING_OK = true
+const YEAR_PRODUCED_MISSING_OK = false // true
 
-const YEAR_PRODUCED_MIN = 0000
-const YEAR_PRODUCED_MAX = 9999
+const YEAR_PRODUCED_MIN = 2016 // 0000
+const YEAR_PRODUCED_MAX = 2020 // 9999
 
 // filter will be applied only if there is at least 1 element
 var YEAR_PRODUCED_WHITELIST = []int16{
@@ -96,3 +96,11 @@ const MIALAGE_MISSING_OK = true
 
 const MIALAGE_MIN = 000_000
 const MIALAGE_MAX = 999_999
+
+//////////
+////////// gearbox
+//////////
+
+var GEARBOX_BLACKLIST = []string{
+	"Автоматична",
+}
