@@ -6,9 +6,10 @@ import (
 	"io"
 	"log"
 	"mobilebg2/define"
-	"mobilebg2/persistentstorage"
 	"net/http"
 	"time"
+
+	"github.com/kuche1/persistentstorage"
 )
 
 type ReqData struct {

@@ -4,14 +4,15 @@ go 1.25.5
 
 require (
 	github.com/PuerkitoBio/goquery v1.11.0
+	github.com/dgraph-io/badger/v4 v4.9.0
 	github.com/kuche1/channelprofiler v0.0.4
+	github.com/kuche1/persistentstorage v0.0.0-20260125131427-3e8b031ff892
 	golang.org/x/net v0.47.0
 )
 
 require (
 	github.com/andybalholm/cascadia v1.3.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/dgraph-io/badger/v4 v4.9.0 // indirect
 	github.com/dgraph-io/ristretto/v2 v2.2.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect

@@ -11,7 +11,6 @@ import (
 	"mobilebg2/define"
 	"mobilebg2/extract_cars"
 	"mobilebg2/net"
-	"mobilebg2/persistentstorage"
 	"os"
 	"runtime"
 	"runtime/pprof"
@@ -19,6 +18,7 @@ import (
 	"time"
 
 	"github.com/kuche1/channelprofiler"
+	"github.com/kuche1/persistentstorage"
 )
 
 func main() {
