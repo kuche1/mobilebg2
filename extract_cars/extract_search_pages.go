@@ -54,7 +54,7 @@ func extractSearchPages(chan_net_req chan *net.ReqData, chan_page_with_car_links
 	// fmt.Printf("Extract Data For Price Range: Done\n")
 
 	for {
-		fmt.Printf("Loading: %v tasks left\n", threadsSpawned)
+		// fmt.Printf("Loading: %v tasks left\n", threadsSpawned)
 
 		if threadsSpawned == 0 {
 			break

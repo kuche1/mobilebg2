@@ -8,7 +8,6 @@ package main
 import (
 	"fmt"
 	"log"
-	"mobilebg2/car"
 	"mobilebg2/define"
 	"mobilebg2/extract_cars"
 	"mobilebg2/net"
@@ -17,7 +16,7 @@ import (
 	"runtime"
 	"runtime/pprof"
 	"runtime/trace"
-	"sort"
+	"time"
 
 	"github.com/kuche1/channelprofiler"
 )
@@ -87,25 +86,32 @@ func main() {
 
 	chan_cars := extract_cars.Main(channelProfiler, chan_net_req)
 
-	allCars := make([]*car.Car, 0)
+	// allCars := make([]*car.Car, 0)
 
 	for car := range chan_cars {
-		// fmt.Printf("\n%v", car.Sprintf())
-		allCars = append(allCars, car)
+		fmt.Printf("\n%v", car.Sprintf())
+		// allCars = append(allCars, car)
 	}
 
 	channelProfiler.StopAndPrintResults()
 
-	sort.Slice(allCars, func(idxA int, idxB int) bool {
-		return allCars[idxA].Horsepower < allCars[idxB].Horsepower
-	})
+	// sort.Slice(allCars, func(idxA int, idxB int) bool {
+	// 	return allCars[idxA].Horsepower < allCars[idxB].Horsepower
+	// })
+
+	// fmt.Print("==================================================\n")
+	// fmt.Print("==================================================\n")
+	// fmt.Print("==================================================\n")
+	// fmt.Print("\n")
+
+	// for _, car := range allCars {
+	// 	fmt.Printf("%v\n", car.Sprintf())
+	// }
 
 	fmt.Print("==================================================\n")
-	fmt.Print("==================================================\n")
-	fmt.Print("==================================================\n")
-	fmt.Print("\n")
+	fmt.Print("All Done\n")
 
-	for _, car := range allCars {
-		fmt.Printf("%v\n", car.Sprintf())
+	for {
+		time.Sleep(1 * time.Second)
 	}
 }
