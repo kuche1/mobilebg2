@@ -7,7 +7,7 @@ require (
 	github.com/PuerkitoBio/goquery v1.11.0
 	github.com/dgraph-io/badger/v4 v4.9.0
 	github.com/kuche1/channelprofiler v0.0.4
-	github.com/kuche1/gonet v0.0.0-20260125165247-64d55f432e3c
+	github.com/kuche1/gonet v0.0.0-20260126221515-e2dcb49deb69
 	golang.org/x/net v0.47.0
 )
 
@@ -38,7 +38,7 @@ require (
 	github.com/jeandeaual/go-locale v0.0.0-20250612000132-0ef82f21eade // indirect
 	github.com/jsummers/gobmp v0.0.0-20230614200233-a9de23ed2e25 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
-	github.com/kuche1/persistentstorage v0.0.0-20260125132431-08dd73146aac // indirect
+	github.com/kuche1/persistentstorage v0.0.0-20260126220922-eafd9632bfba // indirect
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
 	github.com/nicksnyder/go-i18n/v2 v2.5.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect

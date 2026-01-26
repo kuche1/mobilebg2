@@ -100,7 +100,7 @@ func doCarRelatedWork(config *configuration.Config) {
 	net := gonet.NewNet(
 		configg.NET_REQUEST_DELAY_MS,
 		netCacheDir,
-		configg.NET_RESPONSE_VALIDITY_SEC,
+		configg.NET_CACHED_RESPONSE_VALIDITY_SEC,
 	)
 
 	fmt.Printf("Working...\n")

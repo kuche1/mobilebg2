@@ -76,8 +76,12 @@ github.com/kuche1/channelprofiler v0.0.4 h1:B4jzco5fPcgU8RQ0FS6oUOlK5ajSCl5H9x2b
 github.com/kuche1/channelprofiler v0.0.4/go.mod h1:gczPIAXSEX7vUFkdDLRQjg45cXQVuScrkb/uj2PQVL0=
 github.com/kuche1/gonet v0.0.0-20260125165247-64d55f432e3c h1:4WYBI4KJ78OoF1Fc/ymBAbb5dczvQ4Jt+db+7TpWjlY=
 github.com/kuche1/gonet v0.0.0-20260125165247-64d55f432e3c/go.mod h1:a6lYF8W2zb2pogjBiYVr3CElOnWWTlb3d+deliKtePU=
+github.com/kuche1/gonet v0.0.0-20260126221515-e2dcb49deb69 h1:R3kMzVKLVG2xNFCntp827yl/UqPsTC7vLNHwlCOWYhI=
+github.com/kuche1/gonet v0.0.0-20260126221515-e2dcb49deb69/go.mod h1:eDCvV/Yful6G1fz+P54dCY+LhcZmbX+CkmnMQ7fgdwk=
 github.com/kuche1/persistentstorage v0.0.0-20260125132431-08dd73146aac h1:A/TW/X0S4UHrPSDJpMOjCoc3+oQ0reeR6w6zHFNmXUI=
 github.com/kuche1/persistentstorage v0.0.0-20260125132431-08dd73146aac/go.mod h1:hwKlSN47GoJmg7pDN0I8LR3+yGHZsmCUT8pcE2EfOwQ=
+github.com/kuche1/persistentstorage v0.0.0-20260126220922-eafd9632bfba h1:i3eSldVHXjVpYSOX2xhgnpf9aa1OXGIcDjkGsJ+l1c8=
+github.com/kuche1/persistentstorage v0.0.0-20260126220922-eafd9632bfba/go.mod h1:hwKlSN47GoJmg7pDN0I8LR3+yGHZsmCUT8pcE2EfOwQ=
 github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 h1:zYyBkD/k9seD2A7fsi6Oo2LfFZAehjjQMERAvZLEDnQ=
 github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646/go.mod h1:jpp1/29i3P1S/RLdc7JQKbRpFeM1dOBd8T9ki5s+AY8=
 github.com/nicksnyder/go-i18n/v2 v2.5.1 h1:IxtPxYsR9Gp60cGXjfuR/llTqV8aYMsC472zD0D1vHk=
