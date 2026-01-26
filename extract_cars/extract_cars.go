@@ -5,6 +5,8 @@ import (
 	"log"
 	"mobilebg2/car"
 	"mobilebg2/config"
+	configg "mobilebg2/config"
+	"mobilebg2/configuration"
 	"slices"
 	"strconv"
 	"strings"
@@ -12,7 +14,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
+func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car, config *configuration.Config) {
 	defer close(chan_cars)
 
 	// fmt.Printf("extractCars: Begin\n")
@@ -34,7 +36,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car) {
 			continue
 		}
 
-		engineType, blacklisted := findEngineType(elem_params)
+		engineType, blacklisted := findEngineType(elem_params, config)
 		if blacklisted {
 			continue
 		}
@@ -92,7 +94,7 @@ func findTitle(elem_info *goquery.Selection) (value string, blacklisted bool) {
 	if len(config.TITLE_PREFIX_WHITELIST) > 0 {
 		found := false
 
-		for _, whitelisted_title := range config.TITLE_PREFIX_WHITELIST {
+		for _, whitelisted_title := range configg.TITLE_PREFIX_WHITELIST {
 			whitelisted_title_lower := strings.ToLower(whitelisted_title)
 
 			if strings.HasPrefix(title_lower, whitelisted_title_lower) {
@@ -106,7 +108,7 @@ func findTitle(elem_info *goquery.Selection) (value string, blacklisted bool) {
 		}
 	}
 
-	for _, blacklisted_title := range config.TITLE_PREFIX_BLACKLIST {
+	for _, blacklisted_title := range configg.TITLE_PREFIX_BLACKLIST {
 		blacklisted_title_lower := strings.ToLower(blacklisted_title)
 
 		if strings.HasPrefix(title_lower, blacklisted_title_lower) {
@@ -142,7 +144,7 @@ func findPrice(elem_info *goquery.Selection, url string) (_price float64, _inval
 	return value, false
 }
 
-func findEngineType(elem_params *goquery.Selection) (_engineType string, _blacklisted bool) {
+func findEngineType(elem_params *goquery.Selection, config *configuration.Config) (_engineType string, _blacklisted bool) {
 	elem := elem_params.Find("div.item.dvigatel").First()
 	// NOTE: original python code: soup.find("div", class_="item dvigatel")
 
@@ -150,7 +152,7 @@ func findEngineType(elem_params *goquery.Selection) (_engineType string, _blackl
 
 	engineType := elem.Text()
 
-	if slices.Contains(config.ENGINE_TYPE_BLACKLIST, engineType) {
+	if slices.Contains(config.EngineTypeBlacklist, engineType) {
 		return "", true
 	}
 
@@ -162,7 +164,7 @@ func findHorsepower(elem_params *goquery.Selection) (_value int64, _blacklisted 
 	// NOTE: original python code: soup.find("div", class_="item moshtnost")
 
 	if elem.Length() == 0 {
-		if config.HORSEPOWER_MISSING_OK {
+		if configg.HORSEPOWER_MISSING_OK {
 			return -1, false
 		}
 		return -1, true

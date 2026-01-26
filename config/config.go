@@ -59,15 +59,6 @@ var TITLE_PREFIX_WHITELIST = []string{
 }
 
 //////////
-////////// engine type
-//////////
-
-var ENGINE_TYPE_BLACKLIST = []string{
-	"Дизелов",
-	"Електрически",
-}
-
-//////////
 ////////// horsepower
 //////////
 

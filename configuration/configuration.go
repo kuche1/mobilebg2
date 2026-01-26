@@ -12,12 +12,21 @@ type Config struct {
 
 	PriceMin int
 	PriceMax int
+
+	// engine
+
+	EngineTypeBlacklist []string
 }
 
 func newConfigWithDefaults() *Config {
 	return &Config{
 		PriceMin: 10_000, //1_852 // bgn 3_600
 		PriceMax: 15_000, //3_852 // 4_632 // bgn 9_000
+
+		EngineTypeBlacklist: []string{
+			"Дизелов",
+			"Електрически",
+		},
 	}
 }
 
