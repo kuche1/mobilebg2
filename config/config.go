@@ -59,20 +59,6 @@ var TITLE_PREFIX_WHITELIST = []string{
 }
 
 //////////
-////////// year produced
-//////////
-
-const YEAR_PRODUCED_MISSING_OK = false // true
-
-const YEAR_PRODUCED_MIN = 2016 // 0000
-const YEAR_PRODUCED_MAX = 2020 // 9999
-
-// filter will be applied only if there is at least 1 element
-var YEAR_PRODUCED_WHITELIST = []int16{
-	// 2009,
-}
-
-//////////
 ////////// mialage
 //////////
 

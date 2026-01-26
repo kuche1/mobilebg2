@@ -13,14 +13,21 @@ type Config struct {
 	PriceMin int
 	PriceMax int
 
-	// engine
-
-	EngineTypeBlacklist []string
-
 	// horsepower
 
 	HorsepowerMissingOk bool
 	HorsepowerMin       int64
+
+	// year produced
+
+	YearProducedMissingOk bool
+	YearProducedMin       int16
+	YearProducedMax       int16
+	YearProducedWhitelist []int16 // filter will be applied only if there is at least 1 element
+
+	// engine
+
+	EngineTypeBlacklist []string
 }
 
 func newConfigWithDefaults() *Config {
@@ -28,13 +35,20 @@ func newConfigWithDefaults() *Config {
 		PriceMin: 10_000, //1_852 // bgn 3_600
 		PriceMax: 15_000, //3_852 // 4_632 // bgn 9_000
 
+		HorsepowerMissingOk: false, // true
+		HorsepowerMin:       158,   // 60
+
+		YearProducedMissingOk: false, // true
+		YearProducedMin:       2016,  // 0000
+		YearProducedMax:       2020,  // 9999
+		YearProducedWhitelist: []int16{
+			// 2009
+		},
+
 		EngineTypeBlacklist: []string{
 			"Дизелов",
 			"Електрически",
 		},
-
-		HorsepowerMissingOk: false, // true
-		HorsepowerMin:       158,   // 60
 	}
 }
 

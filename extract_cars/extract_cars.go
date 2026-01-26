@@ -45,7 +45,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car, conf
 			continue
 		}
 
-		yearProduced, blacklisted := findYearProduced(elem_params)
+		yearProduced, blacklisted := findYearProduced(elem_params, config)
 		if blacklisted {
 			continue
 		}
@@ -191,12 +191,12 @@ func findHorsepower(elem_params *goquery.Selection, config *configuration.Config
 	return valueAsInt, false
 }
 
-func findYearProduced(elem_params *goquery.Selection) (_year int16, _blacklisted bool) {
+func findYearProduced(elem_params *goquery.Selection, config *configuration.Config) (_year int16, _blacklisted bool) {
 	elem := elem_params.Find("div.item.proizvodstvo").First()
 	// NOTE: original python code: elem_params.find("div", class_="item proizvodstvo")
 
 	if elem.Length() == 0 {
-		if configg.YEAR_PRODUCED_MISSING_OK {
+		if config.YearProducedMissingOk {
 			return -1, false
 		}
 		return -1, true
@@ -219,16 +219,16 @@ func findYearProduced(elem_params *goquery.Selection) (_year int16, _blacklisted
 	}
 	yearAsInt := int16(yearAsInt64)
 
-	if yearAsInt < configg.YEAR_PRODUCED_MIN {
+	if yearAsInt < config.YearProducedMin {
 		return -1, true
 	}
 
-	if yearAsInt > configg.YEAR_PRODUCED_MAX {
+	if yearAsInt > config.YearProducedMax {
 		return -1, true
 	}
 
-	if len(configg.YEAR_PRODUCED_WHITELIST) > 0 {
-		if !slices.Contains(configg.YEAR_PRODUCED_WHITELIST, yearAsInt) {
+	if len(config.YearProducedWhitelist) > 0 {
+		if !slices.Contains(config.YearProducedWhitelist, yearAsInt) {
 			return -1, true
 		}
 	}
