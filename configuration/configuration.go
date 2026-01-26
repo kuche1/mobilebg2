@@ -38,6 +38,10 @@ type Config struct {
 	// gearbox
 
 	GearboxBlacklist []string
+
+	// link
+
+	LinkBlacklist []string
 }
 
 func newConfigWithDefaults() *Config {
@@ -66,6 +70,10 @@ func newConfigWithDefaults() *Config {
 
 		GearboxBlacklist: []string{
 			"Автоматична",
+		},
+
+		LinkBlacklist: []string{
+			"https://www.mobile.bg/obiava-11767956291631060-bmw-740-li-xdrive",
 		},
 	}
 }

@@ -10,14 +10,6 @@ const NET_REQUEST_DELAY_MS = 1
 const NET_RESPONSE_VALIDITY_SEC = 60 * 60 * 6 // 6 hours
 
 //////////
-////////// link
-//////////
-
-var LINK_BLACKLIST = []string{
-	// "https://www.mobile.bg/obiava-11767956291631060-bmw-740-li-xdrive",
-}
-
-//////////
 ////////// brand
 //////////
 

@@ -46,7 +46,7 @@ func Main(
 	)
 
 	go extractSearchPages(net, chan_page_with_car_links, config)
-	go extractCarLinks(chan_page_with_car_links, chan_car_links)
+	go extractCarLinks(chan_page_with_car_links, chan_car_links, config)
 	go downloadCarPages(net, chan_car_links, chan_car_pages)
 	go extractCars(chan_car_pages, chan_cars, config)
 

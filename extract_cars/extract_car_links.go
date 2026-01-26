@@ -2,7 +2,7 @@ package extract_cars
 
 import (
 	"fmt"
-	"mobilebg2/config"
+	"mobilebg2/configuration"
 	"mobilebg2/define"
 	"slices"
 	"sync"
@@ -10,21 +10,21 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-func extractCarLinks(chan_page_with_car_links <-chan *goquery.Document, chan_car_links chan<- string) {
+func extractCarLinks(chan_page_with_car_links <-chan *goquery.Document, chan_car_links chan<- string, config *configuration.Config) {
 	defer close(chan_car_links)
 
 	var wg sync.WaitGroup
 
 	for range define.THREADS_EXTRACT_CAR_LINKS {
 		wg.Go(func() {
-			extractCarLinksThr(chan_page_with_car_links, chan_car_links)
+			extractCarLinksThr(chan_page_with_car_links, chan_car_links, config)
 		})
 	}
 
 	wg.Wait()
 }
 
-func extractCarLinksThr(chan_page_with_car_links <-chan *goquery.Document, chan_car_links chan<- string) {
+func extractCarLinksThr(chan_page_with_car_links <-chan *goquery.Document, chan_car_links chan<- string, config *configuration.Config) {
 	for doc := range chan_page_with_car_links {
 		// fmt.Printf("Extract Car Links: %v\n", doc)
 
@@ -42,7 +42,7 @@ func extractCarLinksThr(chan_page_with_car_links <-chan *goquery.Document, chan_
 
 			// fmt.Printf("href2: %v\n", href)
 
-			if slices.Contains(config.LINK_BLACKLIST, href) {
+			if slices.Contains(config.LinkBlacklist, href) {
 				return
 			}
 
