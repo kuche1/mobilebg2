@@ -59,15 +59,6 @@ var TITLE_PREFIX_WHITELIST = []string{
 }
 
 //////////
-////////// mialage
-//////////
-
-const MIALAGE_MISSING_OK = true
-
-const MIALAGE_MIN = 000_000
-const MIALAGE_MAX = 999_999
-
-//////////
 ////////// gearbox
 //////////
 

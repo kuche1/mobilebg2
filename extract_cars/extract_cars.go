@@ -50,7 +50,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car, conf
 			continue
 		}
 
-		mialage, blacklisted := findMialage(elem_params)
+		mialage, blacklisted := findMialage(elem_params, config)
 		if blacklisted {
 			continue
 		}
@@ -236,12 +236,12 @@ func findYearProduced(elem_params *goquery.Selection, config *configuration.Conf
 	return yearAsInt, false
 }
 
-func findMialage(elem_params *goquery.Selection) (_mialage int64, _blacklisted bool) {
+func findMialage(elem_params *goquery.Selection, config *configuration.Config) (_mialage int64, _blacklisted bool) {
 	elem := elem_params.Find("div.item.probeg").First()
 	// NOTE: original python code: soup.find("div", class_="item probeg")
 
 	if elem.Length() == 0 {
-		if configg.MIALAGE_MISSING_OK {
+		if config.MialageMissingOk {
 			return 999_999, false
 		}
 		return -1, true
@@ -264,11 +264,11 @@ func findMialage(elem_params *goquery.Selection) (_mialage int64, _blacklisted b
 		panic(fmt.Sprintf("Not a valid mialage: %v", err))
 	}
 
-	if mialageAsInt < configg.MIALAGE_MIN {
+	if mialageAsInt < config.MialageMin {
 		return -1, true
 	}
 
-	if mialageAsInt > configg.MIALAGE_MAX {
+	if mialageAsInt > config.MialageMax {
 		return -1, true
 	}
 

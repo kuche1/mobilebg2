@@ -18,6 +18,12 @@ type Config struct {
 	HorsepowerMissingOk bool
 	HorsepowerMin       int64
 
+	// mialage
+
+	MialageMissingOk bool
+	MialageMin       int64
+	MialageMax       int64
+
 	// year produced
 
 	YearProducedMissingOk bool
@@ -37,6 +43,10 @@ func newConfigWithDefaults() *Config {
 
 		HorsepowerMissingOk: false, // true
 		HorsepowerMin:       158,   // 60
+
+		MialageMissingOk: true,
+		MialageMin:       000_000,
+		MialageMax:       999_999,
 
 		YearProducedMissingOk: false, // true
 		YearProducedMin:       2016,  // 0000
