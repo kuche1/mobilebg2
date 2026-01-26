@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"mobilebg2/car"
-	"mobilebg2/config"
 	configg "mobilebg2/config"
 	"mobilebg2/configuration"
 	"slices"
@@ -41,7 +40,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car, conf
 			continue
 		}
 
-		horsepower, blacklisted := findHorsepower(elem_params)
+		horsepower, blacklisted := findHorsepower(elem_params, config)
 		if blacklisted {
 			continue
 		}
@@ -91,7 +90,7 @@ func findTitle(elem_info *goquery.Selection) (value string, blacklisted bool) {
 
 	title_lower := strings.ToLower(title)
 
-	if len(config.TITLE_PREFIX_WHITELIST) > 0 {
+	if len(configg.TITLE_PREFIX_WHITELIST) > 0 {
 		found := false
 
 		for _, whitelisted_title := range configg.TITLE_PREFIX_WHITELIST {
@@ -159,12 +158,12 @@ func findEngineType(elem_params *goquery.Selection, config *configuration.Config
 	return engineType, false
 }
 
-func findHorsepower(elem_params *goquery.Selection) (_value int64, _blacklisted bool) {
+func findHorsepower(elem_params *goquery.Selection, config *configuration.Config) (_value int64, _blacklisted bool) {
 	elem := elem_params.Find("div.item.moshtnost").First()
 	// NOTE: original python code: soup.find("div", class_="item moshtnost")
 
 	if elem.Length() == 0 {
-		if configg.HORSEPOWER_MISSING_OK {
+		if config.HorsepowerMissingOk {
 			return -1, false
 		}
 		return -1, true
@@ -185,7 +184,7 @@ func findHorsepower(elem_params *goquery.Selection) (_value int64, _blacklisted 
 		panic(fmt.Sprintf("The site must have changed: %v", err))
 	}
 
-	if valueAsInt < config.HORSEPOWER_MIN {
+	if valueAsInt < config.HorsepowerMin {
 		return -1, true
 	}
 
@@ -197,7 +196,7 @@ func findYearProduced(elem_params *goquery.Selection) (_year int16, _blacklisted
 	// NOTE: original python code: elem_params.find("div", class_="item proizvodstvo")
 
 	if elem.Length() == 0 {
-		if config.YEAR_PRODUCED_MISSING_OK {
+		if configg.YEAR_PRODUCED_MISSING_OK {
 			return -1, false
 		}
 		return -1, true
@@ -220,16 +219,16 @@ func findYearProduced(elem_params *goquery.Selection) (_year int16, _blacklisted
 	}
 	yearAsInt := int16(yearAsInt64)
 
-	if yearAsInt < config.YEAR_PRODUCED_MIN {
+	if yearAsInt < configg.YEAR_PRODUCED_MIN {
 		return -1, true
 	}
 
-	if yearAsInt > config.YEAR_PRODUCED_MAX {
+	if yearAsInt > configg.YEAR_PRODUCED_MAX {
 		return -1, true
 	}
 
-	if len(config.YEAR_PRODUCED_WHITELIST) > 0 {
-		if !slices.Contains(config.YEAR_PRODUCED_WHITELIST, yearAsInt) {
+	if len(configg.YEAR_PRODUCED_WHITELIST) > 0 {
+		if !slices.Contains(configg.YEAR_PRODUCED_WHITELIST, yearAsInt) {
 			return -1, true
 		}
 	}
@@ -242,7 +241,7 @@ func findMialage(elem_params *goquery.Selection) (_mialage int64, _blacklisted b
 	// NOTE: original python code: soup.find("div", class_="item probeg")
 
 	if elem.Length() == 0 {
-		if config.MIALAGE_MISSING_OK {
+		if configg.MIALAGE_MISSING_OK {
 			return 999_999, false
 		}
 		return -1, true
@@ -265,11 +264,11 @@ func findMialage(elem_params *goquery.Selection) (_mialage int64, _blacklisted b
 		panic(fmt.Sprintf("Not a valid mialage: %v", err))
 	}
 
-	if mialageAsInt < config.MIALAGE_MIN {
+	if mialageAsInt < configg.MIALAGE_MIN {
 		return -1, true
 	}
 
-	if mialageAsInt > config.MIALAGE_MAX {
+	if mialageAsInt > configg.MIALAGE_MAX {
 		return -1, true
 	}
 

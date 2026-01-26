@@ -16,6 +16,11 @@ type Config struct {
 	// engine
 
 	EngineTypeBlacklist []string
+
+	// horsepower
+
+	HorsepowerMissingOk bool
+	HorsepowerMin       int64
 }
 
 func newConfigWithDefaults() *Config {
@@ -27,6 +32,9 @@ func newConfigWithDefaults() *Config {
 			"Дизелов",
 			"Електрически",
 		},
+
+		HorsepowerMissingOk: false, // true
+		HorsepowerMin:       158,   // 60
 	}
 }
 

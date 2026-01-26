@@ -59,14 +59,6 @@ var TITLE_PREFIX_WHITELIST = []string{
 }
 
 //////////
-////////// horsepower
-//////////
-
-const HORSEPOWER_MISSING_OK = false // true
-
-const HORSEPOWER_MIN = 158 // 60
-
-//////////
 ////////// year produced
 //////////
 
