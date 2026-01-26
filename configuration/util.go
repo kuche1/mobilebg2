@@ -1,9 +1,17 @@
 package configuration
 
-import "mobilebg2/define"
+import (
+	"mobilebg2/define"
+	"os"
+	"path/filepath"
+)
 
 func getConfigFile() string {
-	// TODO: use the OS-specific folder
-	configFilePath := define.CONFIG_FILE_NAME
-	return configFilePath
+	path, err := os.UserConfigDir()
+	if err != nil {
+		panic(err)
+	}
+
+	path = filepath.Join(path, define.CONFIG_FILE_NAME)
+	return path
 }

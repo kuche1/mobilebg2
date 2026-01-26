@@ -26,7 +26,7 @@ func NewConfig() *Config {
 
 	_, err := os.Stat(configFilePath)
 	if os.IsNotExist(err) {
-		fmt.Printf("Config file does not exist, creating: %v\n", configFilePath)
+		fmt.Printf("Config file does not exist, creating\n")
 		config := newConfigWithDefaults()
 		config.save(configFilePath)
 	}
@@ -35,8 +35,6 @@ func NewConfig() *Config {
 	if err != nil {
 		fmt.Printf("Using defaults: Could not open config file `%v`: %v", configFilePath, err)
 		dataAsBytes = []byte("{}")
-	} else {
-		fmt.Printf("Using config file: %v\n", configFilePath)
 	}
 
 	dataAsStr := string(dataAsBytes)
@@ -50,10 +48,14 @@ func NewConfig() *Config {
 		panic(err)
 	}
 
+	config.save(configFilePath)
+
 	return config
 }
 
 func (self *Config) save(file string) {
+	fmt.Printf("Saving config file: %v\n", file)
+
 	data, err := json.Marshal(self)
 	if err != nil {
 		panic(err)
