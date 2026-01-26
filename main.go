@@ -11,11 +11,11 @@ import (
 	"mobilebg2/config"
 	"mobilebg2/define"
 	"mobilebg2/extract_cars"
+	"mobilebg2/graphicalinterface"
 	"os"
 	"runtime"
 	"runtime/pprof"
 	"runtime/trace"
-	"time"
 
 	"github.com/kuche1/channelprofiler"
 	"github.com/kuche1/gonet"
@@ -70,31 +70,38 @@ func main() {
 		// now I need to test that it works and then test it without the kernel parameter
 	}
 
+	gui := graphicalinterface.NewGui()
+	gui.InterceptStdout()
+
+	go doCarRelatedWork()
+
+	gui.ShowAndRun()
+}
+
+func doCarRelatedWork() {
+	fmt.Printf("Working...\n")
+
 	channelProfiler := channelprofiler.NewChannelProfiler()
-	channelProfiler.Start()
+	// channelProfiler.Start()
 	// defer channelProfiler.StopAndPrintResults()
 
-	// persistentStorage := persistentstorage.NewPersistentStorage(define.PERSISTENT_STORAGE)
-	// defer persistentStorage.Close()
-	//
-	// chan_net_req := gonet.RequesterInit(persistentStorage)
-	// channelProfiler.AddChannels(channelprofiler.NewChannelData(
-	// 	"chan_net_req",
-	// 	func() int { return len(chan_net_req) },
-	// 	cap(chan_net_req),
-	// ))
-	net := gonet.NewNet(config.NET_REQUEST_DELAY_MS, config.NET_CACHE_PATH, config.NET_RESPONSE_VALIDITY_SEC)
+	net := gonet.NewNet(
+		config.NET_REQUEST_DELAY_MS,
+		config.NET_CACHE_PATH,
+		config.NET_RESPONSE_VALIDITY_SEC,
+	)
 
 	chan_cars := extract_cars.Main(channelProfiler, net)
 
 	// allCars := make([]*car.Car, 0)
 
 	for car := range chan_cars {
-		fmt.Printf("\n%v", car.Sprintf())
-		// allCars = append(allCars, car)
+		fmt.Printf("\n%v\n", car.Sprintf())
+		// gui.Print(fmt.Sprintf("\n%v", car.Sprintf()))
+		// // allCars = append(allCars, car)
 	}
 
-	channelProfiler.StopAndPrintResults()
+	// channelProfiler.StopAndPrintResults()
 
 	// sort.Slice(allCars, func(idxA int, idxB int) bool {
 	// 	return allCars[idxA].Horsepower < allCars[idxB].Horsepower
@@ -109,10 +116,5 @@ func main() {
 	// 	fmt.Printf("%v\n", car.Sprintf())
 	// }
 
-	fmt.Print("==================================================\n")
-	fmt.Print("All Done\n")
-
-	for {
-		time.Sleep(1 * time.Second)
-	}
+	fmt.Printf("Done\n")
 }
