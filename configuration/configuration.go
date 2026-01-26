@@ -34,6 +34,10 @@ type Config struct {
 	// engine
 
 	EngineTypeBlacklist []string
+
+	// gearbox
+
+	GearboxBlacklist []string
 }
 
 func newConfigWithDefaults() *Config {
@@ -58,6 +62,10 @@ func newConfigWithDefaults() *Config {
 		EngineTypeBlacklist: []string{
 			"Дизелов",
 			"Електрически",
+		},
+
+		GearboxBlacklist: []string{
+			"Автоматична",
 		},
 	}
 }

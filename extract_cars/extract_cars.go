@@ -55,7 +55,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car, conf
 			continue
 		}
 
-		gearbox, blacklisted := findGearbox(elem_params)
+		gearbox, blacklisted := findGearbox(elem_params, config)
 		if blacklisted {
 			continue
 		}
@@ -275,7 +275,7 @@ func findMialage(elem_params *goquery.Selection, config *configuration.Config) (
 	return mialageAsInt, false
 }
 
-func findGearbox(elem_params *goquery.Selection) (_gearbox string, _blacklisted bool) {
+func findGearbox(elem_params *goquery.Selection, config *configuration.Config) (_gearbox string, _blacklisted bool) {
 	elem := elem_params.Find("div.item.skorosti").First()
 	// NOTE: original python code: soup.find("div", class_="item skorosti")
 
@@ -286,6 +286,10 @@ func findGearbox(elem_params *goquery.Selection) (_gearbox string, _blacklisted 
 	elem = elem.Find("div.mpInfo")
 
 	gearbox := elem.Text()
+
+	if slices.Contains(config.GearboxBlacklist, gearbox) {
+		return "", true
+	}
 
 	return gearbox, false
 }

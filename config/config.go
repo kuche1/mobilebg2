@@ -57,11 +57,3 @@ var TITLE_PREFIX_WHITELIST = []string{
 
 	// "vw golf",
 }
-
-//////////
-////////// gearbox
-//////////
-
-var GEARBOX_BLACKLIST = []string{
-	"Автоматична",
-}
