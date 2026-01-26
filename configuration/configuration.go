@@ -122,16 +122,13 @@ func newConfigWithDefaults() *Config {
 func NewConfig() *Config {
 	configFilePath := getConfigFile()
 
-	_, err := os.Stat(configFilePath)
-	if os.IsNotExist(err) {
-		fmt.Printf("Config file does not exist, creating\n")
-		config := newConfigWithDefaults()
-		config.save(configFilePath)
-	}
-
 	dataAsBytes, err := os.ReadFile(configFilePath)
 	if err != nil {
-		fmt.Printf("Using defaults: Could not open config file `%v`: %v", configFilePath, err)
+		if os.IsNotExist(err) {
+			fmt.Printf("Config file does not exist, it will be created\n")
+		} else {
+			fmt.Printf("Using defaults: Could not open config file `%v`: %v", configFilePath, err)
+		}
 		dataAsBytes = []byte("{}")
 	}
 
