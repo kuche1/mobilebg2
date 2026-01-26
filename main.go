@@ -80,6 +80,7 @@ func main() {
 
 func doCarRelatedWork() {
 	fmt.Printf("Working...\n")
+	fmt.Printf("\n")
 
 	channelProfiler := channelprofiler.NewChannelProfiler()
 	// channelProfiler.Start()
@@ -96,7 +97,7 @@ func doCarRelatedWork() {
 	// allCars := make([]*car.Car, 0)
 
 	for car := range chan_cars {
-		fmt.Printf("\n%v\n", car.Sprintf())
+		fmt.Printf("%v\n", car.Sprintf())
 		// gui.Print(fmt.Sprintf("\n%v", car.Sprintf()))
 		// // allCars = append(allCars, car)
 	}
@@ -116,5 +117,5 @@ func doCarRelatedWork() {
 	// 	fmt.Printf("%v\n", car.Sprintf())
 	// }
 
-	fmt.Printf("Done\n")
+	fmt.Printf("Done")
 }
