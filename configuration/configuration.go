@@ -39,6 +39,11 @@ type Config struct {
 
 	GearboxBlacklist []string
 
+	// brand
+
+	BrandBlacklist []string
+	BrandWhitelist []string
+
 	// link
 
 	LinkBlacklist []string
@@ -70,6 +75,42 @@ func newConfigWithDefaults() *Config {
 
 		GearboxBlacklist: []string{
 			"Автоматична",
+		},
+
+		// for the full list see
+		// https://www.mobile.bg/search/avtomobili-dzhipove
+		// "Марка" and "Модел"
+		BrandBlacklist: []string{
+			"mercedes",
+		},
+		BrandWhitelist: []string{
+			"honda civic",
+			// "honda cr-v",
+			// "honda element",
+			// "honda odyssey",
+			// "honda pilot",
+
+			// "hyundai", // TODO
+
+			// "kia sorento",
+
+			// "lexus es",
+			// "lexus gx",
+
+			// "mazda cx-9",
+			// "mazda 3",
+			// "mazda 5",
+			// "mazda 6",
+
+			// "nissan", // TODO
+
+			// "subaru forester",
+			// "subaru legacy",
+			// "subaru outback",
+
+			// "toyota", // TODO
+
+			// "vw golf",
 		},
 
 		LinkBlacklist: []string{

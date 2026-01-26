@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"mobilebg2/car"
-	configg "mobilebg2/config"
 	"mobilebg2/configuration"
 	"slices"
 	"strconv"
@@ -24,7 +23,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car, conf
 		elem_info := page_data.doc.Find("div.contactsBox").First()
 		elem_params := page_data.doc.Find("div.mainCarParams").First()
 
-		title, blacklisted := findTitle(elem_info)
+		title, blacklisted := findTitle(elem_info, config)
 		if blacklisted {
 			// fmt.Printf("Blacklisted car: %v\n", title)
 			continue
@@ -81,7 +80,7 @@ func extractCars(chan_car_pages chan *carPageData, chan_cars chan *car.Car, conf
 	// fmt.Printf("extractCars: End\n")
 }
 
-func findTitle(elem_info *goquery.Selection) (value string, blacklisted bool) {
+func findTitle(elem_info *goquery.Selection, config *configuration.Config) (value string, blacklisted bool) {
 	elem_title := elem_info.Find("div.obTitle").First()
 
 	title := strings.TrimSpace(elem_title.Text())
@@ -90,10 +89,10 @@ func findTitle(elem_info *goquery.Selection) (value string, blacklisted bool) {
 
 	title_lower := strings.ToLower(title)
 
-	if len(configg.TITLE_PREFIX_WHITELIST) > 0 {
+	if len(config.BrandWhitelist) > 0 {
 		found := false
 
-		for _, whitelisted_title := range configg.TITLE_PREFIX_WHITELIST {
+		for _, whitelisted_title := range config.BrandWhitelist {
 			whitelisted_title_lower := strings.ToLower(whitelisted_title)
 
 			if strings.HasPrefix(title_lower, whitelisted_title_lower) {
@@ -107,7 +106,7 @@ func findTitle(elem_info *goquery.Selection) (value string, blacklisted bool) {
 		}
 	}
 
-	for _, blacklisted_title := range configg.TITLE_PREFIX_BLACKLIST {
+	for _, blacklisted_title := range config.BrandBlacklist {
 		blacklisted_title_lower := strings.ToLower(blacklisted_title)
 
 		if strings.HasPrefix(title_lower, blacklisted_title_lower) {
