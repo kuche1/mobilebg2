@@ -1,3 +1,5 @@
+// TODO: move all of this into `configuration`
+
 package config
 
 //////////
@@ -6,14 +8,6 @@ package config
 
 const NET_REQUEST_DELAY_MS = 1
 const NET_RESPONSE_VALIDITY_SEC = 60 * 60 * 6 // 6 hours
-
-//////////
-////////// price
-//////////
-
-// prices are in EUR
-const PRICE_MIN = 10_000 //1_852 // bgn 3_600
-const PRICE_MAX = 15_000 //3_852 // 4_632 // bgn 9_000
 
 //////////
 ////////// link

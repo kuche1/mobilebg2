@@ -8,7 +8,8 @@ package main
 import (
 	"fmt"
 	"log"
-	"mobilebg2/config"
+	configg "mobilebg2/config"
+	"mobilebg2/configuration"
 	"mobilebg2/define"
 	"mobilebg2/extract_cars"
 	"mobilebg2/graphicalinterface"
@@ -74,12 +75,14 @@ func main() {
 	gui := graphicalinterface.NewGui()
 	gui.InterceptStdout()
 
-	go doCarRelatedWork()
+	config := configuration.NewConfig()
+
+	go doCarRelatedWork(config)
 
 	gui.ShowAndRun()
 }
 
-func doCarRelatedWork() {
+func doCarRelatedWork(config *configuration.Config) {
 
 	channelProfiler := channelprofiler.NewChannelProfiler()
 	// channelProfiler.Start()
@@ -95,15 +98,15 @@ func doCarRelatedWork() {
 	fmt.Printf("Net cache will be saved to: %v\n", netCacheDir)
 
 	net := gonet.NewNet(
-		config.NET_REQUEST_DELAY_MS,
+		configg.NET_REQUEST_DELAY_MS,
 		netCacheDir,
-		config.NET_RESPONSE_VALIDITY_SEC,
+		configg.NET_RESPONSE_VALIDITY_SEC,
 	)
 
 	fmt.Printf("Working...\n")
 	fmt.Printf("\n")
 
-	chan_cars := extract_cars.Main(channelProfiler, net)
+	chan_cars := extract_cars.Main(channelProfiler, net, config)
 
 	// allCars := make([]*car.Car, 0)
 

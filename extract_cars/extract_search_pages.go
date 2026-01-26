@@ -3,7 +3,7 @@ package extract_cars
 import (
 	"fmt"
 	"log"
-	"mobilebg2/config"
+	"mobilebg2/configuration"
 	"mobilebg2/define"
 	"strings"
 	"sync"
@@ -12,7 +12,7 @@ import (
 	"github.com/kuche1/gonet"
 )
 
-func extractSearchPages(net *gonet.Net, chan_page_with_car_links chan<- *goquery.Document) {
+func extractSearchPages(net *gonet.Net, chan_page_with_car_links chan<- *goquery.Document, config *configuration.Config) {
 	defer close(chan_page_with_car_links)
 
 	var wg sync.WaitGroup
@@ -20,14 +20,14 @@ func extractSearchPages(net *gonet.Net, chan_page_with_car_links chan<- *goquery
 	threadsSpawned := 0
 	chanThreadDone := make(chan struct{})
 
-	price_max := config.PRICE_MAX
+	price_max := config.PriceMax
 
 	for {
-		if price_max < config.PRICE_MIN {
+		if price_max < config.PriceMin {
 			break
 		}
 
-		price_min := max(price_max-define.PRICE_STEP, config.PRICE_MIN)
+		price_min := max(price_max-define.PRICE_STEP, config.PriceMin)
 
 		// this print sucks and is misleading
 		// fmt.Printf(
