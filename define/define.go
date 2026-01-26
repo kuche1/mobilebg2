@@ -29,3 +29,5 @@ const THREADS_DOWNLOAD_CAR_PAGES = 60
 const THREADS_EXTRACT_CAR_LINKS = 1
 
 const CURRENCY = "EUR"
+
+const NET_CACHE_FOLDER_NAME = "mobilebg2_net_cache"

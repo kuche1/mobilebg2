@@ -5,7 +5,6 @@ package config
 //////////
 
 const NET_REQUEST_DELAY_MS = 1
-const NET_CACHE_PATH = "./mobilebg2_net_cache"
 const NET_RESPONSE_VALIDITY_SEC = 60 * 60 * 6 // 6 hours
 
 //////////

@@ -13,6 +13,7 @@ import (
 	"mobilebg2/extract_cars"
 	"mobilebg2/graphicalinterface"
 	"os"
+	"path/filepath"
 	"runtime"
 	"runtime/pprof"
 	"runtime/trace"
@@ -79,18 +80,28 @@ func main() {
 }
 
 func doCarRelatedWork() {
-	fmt.Printf("Working...\n")
-	fmt.Printf("\n")
 
 	channelProfiler := channelprofiler.NewChannelProfiler()
 	// channelProfiler.Start()
 	// defer channelProfiler.StopAndPrintResults()
 
+	userCacheDir, err := os.UserCacheDir()
+	if err != nil {
+		panic(err)
+	}
+
+	netCacheDir := filepath.Join(userCacheDir, define.NET_CACHE_FOLDER_NAME)
+
+	fmt.Printf("Net cache will be saved to: %v\n", netCacheDir)
+
 	net := gonet.NewNet(
 		config.NET_REQUEST_DELAY_MS,
-		config.NET_CACHE_PATH,
+		netCacheDir,
 		config.NET_RESPONSE_VALIDITY_SEC,
 	)
+
+	fmt.Printf("Working...\n")
+	fmt.Printf("\n")
 
 	chan_cars := extract_cars.Main(channelProfiler, net)
 
