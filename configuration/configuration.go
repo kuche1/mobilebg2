@@ -47,6 +47,11 @@ type Config struct {
 	// link
 
 	LinkBlacklist []string
+
+	// net
+
+	NetRequestDelayMS            int
+	NetCachedResponseValiditySec int64
 }
 
 func newConfigWithDefaults() *Config {
@@ -116,6 +121,9 @@ func newConfigWithDefaults() *Config {
 		LinkBlacklist: []string{
 			"https://www.mobile.bg/obiava-11767956291631060-bmw-740-li-xdrive",
 		},
+
+		NetRequestDelayMS:            1,
+		NetCachedResponseValiditySec: 60 * 60 * 6, // 6 hours
 	}
 }
 

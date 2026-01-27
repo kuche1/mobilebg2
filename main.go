@@ -1,14 +1,11 @@
 // go mod init mobilebg2
 // go mod tidy
 
-// TODO: print progress
-
 package main
 
 import (
 	"fmt"
 	"log"
-	configg "mobilebg2/config"
 	"mobilebg2/configuration"
 	"mobilebg2/define"
 	"mobilebg2/extract_cars"
@@ -98,9 +95,9 @@ func doCarRelatedWork(config *configuration.Config) {
 	fmt.Printf("Net cache will be saved to: %v\n", netCacheDir)
 
 	net := gonet.NewNet(
-		configg.NET_REQUEST_DELAY_MS,
+		config.NetRequestDelayMS,
 		netCacheDir,
-		configg.NET_CACHED_RESPONSE_VALIDITY_SEC,
+		config.NetCachedResponseValiditySec,
 	)
 
 	fmt.Printf("Working...\n")

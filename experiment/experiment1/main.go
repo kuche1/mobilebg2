@@ -33,7 +33,7 @@ package main
 // 	// err := ps.db.View(func(tx *bbolt.Tx) error {
 // 	// 	b := tx.Bucket([]byte("SomeBucketName"))
 // 	// 	val := b.Get([]byte("key"))
-// 	// 	copy(value, val) // TODO: I think it will fail otherwise
+// 	// 	copy(value, val) // I think it will fail otherwise
 // 	// 	return nil
 // 	// })
 // 	// if err != nil {
@@ -188,7 +188,7 @@ package main
 // // 	err = db.View(func(tx *bbolt.Tx) error {
 // // 		b := tx.Bucket([]byte("SomeBucketName"))
 // // 		val := b.Get([]byte("key"))
-// // 		copy(value, val) // TODO: I think it will fail otherwise
+// // 		copy(value, val) // I think it will fail otherwise
 // // 		return nil
 // // 	})
 // // 	if err != nil {
