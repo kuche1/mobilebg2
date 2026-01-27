@@ -8,6 +8,7 @@ require (
 	github.com/dgraph-io/badger/v4 v4.9.0
 	github.com/kuche1/channelprofiler v0.0.4
 	github.com/kuche1/gonet v0.0.0-20260126221515-e2dcb49deb69
+	github.com/pelletier/go-toml/v2 v2.2.4
 	golang.org/x/net v0.47.0
 )
 

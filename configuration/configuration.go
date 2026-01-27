@@ -1,10 +1,11 @@
 package configuration
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/pelletier/go-toml/v2"
 )
 
 type Config struct {
@@ -137,12 +138,12 @@ func NewConfig() *Config {
 		} else {
 			fmt.Printf("Using defaults: Could not open config file `%v`: %v", configFilePath, err)
 		}
-		dataAsBytes = []byte("{}")
+		dataAsBytes = []byte("")
 	}
 
 	dataAsStr := string(dataAsBytes)
 
-	decoder := json.NewDecoder(strings.NewReader(dataAsStr))
+	decoder := toml.NewDecoder(strings.NewReader(dataAsStr))
 	decoder.DisallowUnknownFields()
 
 	config := newConfigWithDefaults()
@@ -159,7 +160,7 @@ func NewConfig() *Config {
 func (self *Config) save(file string) {
 	fmt.Printf("Saving config file: %v\n", file)
 
-	data, err := json.Marshal(self)
+	data, err := toml.Marshal(self)
 	if err != nil {
 		panic(err)
 	}

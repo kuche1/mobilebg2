@@ -32,5 +32,4 @@ const CURRENCY = "EUR"
 
 const NET_CACHE_FOLDER_NAME = "mobilebg2_net_cache"
 
-// TODO: maaybe use something more readable than json
-const CONFIG_FILE_NAME = "mobile2_config.json"
+const CONFIG_FILE_NAME = "mobile2_config.toml"
